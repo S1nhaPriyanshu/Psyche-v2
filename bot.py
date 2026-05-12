@@ -32,9 +32,10 @@ aiohttp.TCPConnector = _patched_TCPConnector
 
 # The Proxy Refactor: Force all aiohttp sessions to trust Hugging Face's network proxies
 _orig_ClientSession = aiohttp.ClientSession
-def _patched_ClientSession(*args, **kwargs):
-    kwargs['trust_env'] = True
-    return _orig_ClientSession(*args, **kwargs)
+class _patched_ClientSession(_orig_ClientSession):
+    def __init__(self, *args, **kwargs):
+        kwargs['trust_env'] = True
+        super().__init__(*args, **kwargs)
 aiohttp.ClientSession = _patched_ClientSession
 
 # Now safe to import network-reliant libraries
