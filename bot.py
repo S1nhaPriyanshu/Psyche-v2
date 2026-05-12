@@ -23,9 +23,11 @@ from datetime import datetime
 # Now safe to import network-reliant libraries
 import discord
 from discord.ext import commands
+from discord import ui
 from aiohttp import web
 from dotenv import load_dotenv
 import google.generativeai as genai
+from questions import ASSESSMENTS
 
 # =============================================================================
 # 1. CONFIGURATION & ENVIRONMENT
@@ -170,6 +172,134 @@ async def purge_user_data(user_id: str):
     await bot.db.execute("DELETE FROM cooldowns WHERE user_id = ?", (user_id,))
     await bot.db.commit()
     log.info("✅ User Scrub complete for %s", user_id)
+
+# =============================================================================
+# 5. PHASE 3: CLINICAL ASSESSMENT ENGINE (discord.ui.View)
+# =============================================================================
+
+class AssessmentView(ui.View):
+    """
+    Singleton-message assessment UI.
+    One message edits itself for every question. Likert 1-5 buttons.
+    Commits to DB after every answer to survive HF restarts.
+    """
+    def __init__(self, user_id: str, quiz_type: str, progress: int, answers: list, dm_channel):
+        super().__init__(timeout=600)  # 10 minute idle timeout
+        self.user_id = user_id
+        self.quiz_type = quiz_type
+        self.progress = progress
+        self.answers = answers
+        self.dm_channel = dm_channel
+        self.items_list = ASSESSMENTS[quiz_type]["items"]
+        self.total = len(self.items_list)
+        self.message = None  # The singleton message reference
+
+    def build_embed(self):
+        """Builds the embed for the current question."""
+        q_text = self.items_list[self.progress]
+        embed = discord.Embed(
+            title=f"{ASSESSMENTS[self.quiz_type]['name']}",
+            description=f"**Q{self.progress + 1}/{self.total}**\n\n“{q_text}”",
+            color=discord.Color.from_str("#9B59B6")
+        )
+        embed.add_field(
+            name="Scale",
+            value="1️⃣ Strongly Disagree • 2️⃣ Disagree • 3️⃣ Neutral • 4️⃣ Agree • 5️⃣ Strongly Agree",
+            inline=False
+        )
+        bar_len = 20
+        filled = int((self.progress / self.total) * bar_len)
+        bar = "█" * filled + "░" * (bar_len - filled)
+        pct = int((self.progress / self.total) * 100)
+        embed.add_field(name="Progress", value=f"`[{bar}]` {pct}%", inline=False)
+        apply_disclaimer(embed)
+        return embed
+
+    async def record_answer(self, value: int, interaction: discord.Interaction):
+        """Core handler: saves answer, advances or finishes."""
+        # Prevent other users from clicking
+        if str(interaction.user.id) != self.user_id:
+            return await interaction.response.send_message("This isn't your assessment.", ephemeral=True)
+
+        self.answers.append(value)
+        self.progress += 1
+
+        # Persist to DB after every answer (survives HF restarts)
+        await bot.db.execute(
+            "INSERT OR REPLACE INTO quiz_sessions (user_id, quiz_type, current_question, answers) VALUES (?, ?, ?, ?)",
+            (self.user_id, self.quiz_type, self.progress, json.dumps(self.answers))
+        )
+        await bot.db.commit()
+
+        if self.progress >= self.total:
+            await self.finish_quiz(interaction)
+        else:
+            await interaction.response.edit_message(embed=self.build_embed(), view=self)
+
+    async def finish_quiz(self, interaction: discord.Interaction):
+        """
+        Zero-CPU Finalization:
+        Moves raw answers list to quiz_results as JSON. No scoring.
+        """
+        # Save raw data to results
+        await bot.db.execute(
+            "INSERT OR REPLACE INTO quiz_results "
+            "(user_id, guild_id, quiz_type, result_summary, raw_answers, completed_at) "
+            "VALUES (?, ?, ?, ?, ?, ?)",
+            (self.user_id, "0", self.quiz_type,
+             f"Raw {self.total}-item response captured.",
+             json.dumps(self.answers), datetime.now().isoformat())
+        )
+        # Wipe session
+        await bot.db.execute("DELETE FROM quiz_sessions WHERE user_id = ?", (self.user_id,))
+        await bot.db.commit()
+
+        embed = discord.Embed(
+            title="✅ Assessment Complete",
+            description=f"**{ASSESSMENTS[self.quiz_type]['name']}**\n\n"
+                        f"All {self.total} responses have been securely recorded.\n"
+                        f"Use `!analyze_me` or `!ultimate_analysis` to generate your AI profile.",
+            color=discord.Color.green()
+        )
+        apply_disclaimer(embed)
+        self.stop()
+        await interaction.response.edit_message(embed=embed, view=None)
+
+    async def on_timeout(self):
+        """Disable buttons on idle timeout. Progress is already saved."""
+        if self.message:
+            embed = discord.Embed(
+                title="⏰ Session Paused",
+                description=f"You were idle for too long. Your progress ({self.progress}/{self.total}) is saved.\n"
+                            f"Use `!assessment_resume` to continue.",
+                color=discord.Color.orange()
+            )
+            apply_disclaimer(embed)
+            try:
+                await self.message.edit(embed=embed, view=None)
+            except:
+                pass
+
+    # --- Likert Buttons ---
+    @ui.button(label="1", style=discord.ButtonStyle.secondary)
+    async def btn_1(self, interaction: discord.Interaction, button: ui.Button):
+        await self.record_answer(1, interaction)
+
+    @ui.button(label="2", style=discord.ButtonStyle.secondary)
+    async def btn_2(self, interaction: discord.Interaction, button: ui.Button):
+        await self.record_answer(2, interaction)
+
+    @ui.button(label="3", style=discord.ButtonStyle.primary)
+    async def btn_3(self, interaction: discord.Interaction, button: ui.Button):
+        await self.record_answer(3, interaction)
+
+    @ui.button(label="4", style=discord.ButtonStyle.secondary)
+    async def btn_4(self, interaction: discord.Interaction, button: ui.Button):
+        await self.record_answer(4, interaction)
+
+    @ui.button(label="5", style=discord.ButtonStyle.secondary)
+    async def btn_5(self, interaction: discord.Interaction, button: ui.Button):
+        await self.record_answer(5, interaction)
 
 # =============================================================================
 # 5. PHASE 4: QUIZ DATA & ENGINE
@@ -439,6 +569,91 @@ async def on_member_update(before: discord.Member, after: discord.Member):
     if had_role and not has_role:
         log.info("🚨 PsycheOptIn removed from %s. Triggering user purge.", after.id)
         await purge_user_data(str(after.id))
+
+# =============================================================================
+# 8. CLINICAL ASSESSMENT COMMANDS
+# =============================================================================
+
+@bot.command(name='assessment')
+async def assessment(ctx: commands.Context, test_type: str = None):
+    """Start a clinical-grade personality assessment (!assessment ipip|oejti|enneagram)."""
+    if not is_opted_in(ctx.author):
+        return await ctx.reply("🔒 **Privacy Gate**: You need the `PsycheOptIn` role.")
+
+    valid_types = list(ASSESSMENTS.keys())
+    if not test_type or test_type.lower() not in valid_types:
+        menu = "\n".join([f"`{k}` — {v['name']} ({len(v['items'])} items)" for k, v in ASSESSMENTS.items()])
+        return await ctx.reply(f"❓ **Choose an assessment:**\n{menu}\n\nUsage: `!assessment ipip`")
+
+    test_type = test_type.lower()
+    user_id = str(ctx.author.id)
+
+    # Check for existing session
+    async with bot.db.execute("SELECT quiz_type FROM quiz_sessions WHERE user_id = ?", (user_id,)) as cursor:
+        existing = await cursor.fetchone()
+        if existing:
+            return await ctx.reply(f"⚠️ You have an active `{existing[0]}` session. Use `!assessment_resume` or `!quiz cancel`.")
+
+    # Initialize session in DB
+    await bot.db.execute(
+        "INSERT OR REPLACE INTO quiz_sessions (user_id, quiz_type, current_question, answers) VALUES (?, ?, ?, ?)",
+        (user_id, test_type, 0, "[]")
+    )
+    await bot.db.commit()
+
+    # Build the View and send to DMs
+    try:
+        view = AssessmentView(user_id, test_type, 0, [], ctx.author.dm_channel or await ctx.author.create_dm())
+        
+        # Start embed with disclaimer
+        start_embed = discord.Embed(
+            title=f"🧪 {ASSESSMENTS[test_type]['name']}",
+            description=f"{ASSESSMENTS[test_type]['description']}\n\n"
+                        f"**{len(ASSESSMENTS[test_type]['items'])} questions** • Likert Scale (1-5)\n"
+                        f"Your progress is auto-saved after every answer.",
+            color=discord.Color.from_str("#9B59B6")
+        )
+        apply_disclaimer(start_embed)
+        await ctx.author.send(embed=start_embed)
+
+        msg = await ctx.author.send(embed=view.build_embed(), view=view)
+        view.message = msg
+        await ctx.reply("📩 Check your DMs to begin the assessment!")
+    except discord.Forbidden:
+        await ctx.reply("❌ I can't DM you! Please open your privacy settings.")
+
+@bot.command(name='assessment_resume')
+async def assessment_resume(ctx: commands.Context):
+    """Resumes a paused clinical assessment from the exact question."""
+    user_id = str(ctx.author.id)
+
+    async with bot.db.execute(
+        "SELECT quiz_type, current_question, answers FROM quiz_sessions WHERE user_id = ?", (user_id,)
+    ) as cursor:
+        row = await cursor.fetchone()
+        if not row:
+            return await ctx.reply("❌ No active assessment session found.")
+
+    quiz_type, progress, answers_json = row[0], row[1], row[2]
+    answers = json.loads(answers_json)
+
+    try:
+        dm = ctx.author.dm_channel or await ctx.author.create_dm()
+        view = AssessmentView(user_id, quiz_type, progress, answers, dm)
+
+        resume_embed = discord.Embed(
+            title="▶️ Resuming Assessment",
+            description=f"**{ASSESSMENTS[quiz_type]['name']}**\nPicking up at question {progress + 1}/{len(ASSESSMENTS[quiz_type]['items'])}.",
+            color=discord.Color.from_str("#9B59B6")
+        )
+        apply_disclaimer(resume_embed)
+        await ctx.author.send(embed=resume_embed)
+
+        msg = await ctx.author.send(embed=view.build_embed(), view=view)
+        view.message = msg
+        await ctx.reply("📩 Resuming in DMs...")
+    except discord.Forbidden:
+        await ctx.reply("❌ I can't DM you! Please open your privacy settings.")
 
 # =============================================================================
 # 8. INTERACTION SCRAPER COMMAND (Free-Tier Optimized)
