@@ -18,7 +18,10 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /app
 
 # --- System Dependencies ---
-RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y --reinstall ca-certificates && \
+    update-ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
 # --- User & Permission Hardening ---
 # Hugging Face Spaces run as user 1000. 
