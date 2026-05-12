@@ -19,13 +19,18 @@ def _patched_create_default_context(*args, **kwargs):
 ssl.create_default_context = _patched_create_default_context
 
 # 3. High-Level Request Hijack (Definitive Fix)
+import yarl
 _orig_request = aiohttp.ClientSession._request
 async def _patched_request(self, method, str_or_url, **kwargs):
     hf_proxy = os.getenv('https_proxy') or os.getenv('http_proxy')
     if hf_proxy:
         # Force the proxy into every single request keyword argument
-        kwargs['proxy'] = hf_proxy
+        proxy_url = yarl.URL(hf_proxy)
+        kwargs['proxy'] = proxy_url
         kwargs['trust_env'] = True
+        # Subtle logging to verify injection in HF logs
+        if "discord.com" in str(str_or_url):
+            print(f"[PSYCHE] Proxy Inject: {hf_proxy}")
     return await _orig_request(self, method, str_or_url, **kwargs)
 aiohttp.ClientSession._request = _patched_request
 
