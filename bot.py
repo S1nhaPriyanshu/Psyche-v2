@@ -26,6 +26,22 @@ import json
 import time
 from datetime import datetime
 
+import aiohttp
+import ssl
+
+# =============================================================================
+# SURGICAL SSL PATCH FOR HUGGING FACE SPACES
+# =============================================================================
+# Forces aiohttp to ALWAYS use certifi CA bundles instead of failing with ssl:default [None]
+_orig_tcp_connector_init = aiohttp.TCPConnector.__init__
+
+def _patched_tcp_connector_init(self, *args, **kwargs):
+    if kwargs.get('ssl') is None or kwargs.get('ssl') is True:
+        kwargs['ssl'] = ssl.create_default_context(cafile=certifi.where())
+    _orig_tcp_connector_init(self, *args, **kwargs)
+
+aiohttp.TCPConnector.__init__ = _patched_tcp_connector_init
+
 # Now safe to import network-reliant libraries
 import discord
 from discord.ext import commands
