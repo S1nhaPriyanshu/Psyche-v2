@@ -444,7 +444,9 @@ class PsycheBot(commands.Bot):
     async def on_ready(self):
         activity = discord.Activity(type=discord.ActivityType.watching, name="patterns | !help")
         await self.change_presence(status=discord.Status.online, activity=activity)
-        log.info("✨ Psyche v2 Online | Engine: %s", MODEL_ID)
+        scan_m = os.getenv('SCAN_MODEL', 'Unknown')
+        dossier_m = os.getenv('DOSSIER_MODEL', 'Unknown')
+        log.info(f"✨ Psyche v2 Online | Scan: {scan_m} | Dossier: {dossier_m}")
 
 # =============================================================================
 # 7. EVENT GATES (Privacy & Scrub Protocol)
@@ -1079,6 +1081,18 @@ async def system_query(ctx, target_id: str, *, query: str):
             await status_msg.edit(content=f"⚠️ **Internal API Error:** {str(e)}")
     except Exception as e:
         await status_msg.edit(content=f"⚠️ **Internal Error:** {str(e)}")
+
+@bot.command(name="help")
+async def help_command(ctx):
+    embed = discord.Embed(
+        title="🧠 Psyche v2 | Forensic Protocol",
+        description="Authorized command modules for psychological reconstruction.",
+        color=0x2f3136
+    )
+    embed.add_field(name="📡 Utility", value="`!ping` - Connection health check\n`!purge_my_data` - Privacy wipe", inline=False)
+    embed.add_field(name="🕵️ Forensics", value="`!map_interactions` - Global server history scrape\n`!behavior_scan @user` - AI linguistic snapshot (Flash)", inline=False)
+    embed.add_field(name="🔬 Clinical", value="`!assessment ocean` - Launch OCEAN test\n`!assessment_resume` - Continue test\n`!generate_dossier` - Full profile synthesis (Pro)", inline=False)
+    await ctx.send(embed=embed)
 
 if __name__ == '__main__':
     bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
