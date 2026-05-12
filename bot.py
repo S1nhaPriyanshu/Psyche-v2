@@ -46,6 +46,10 @@ SCAN_MODEL      = os.getenv('SCAN_MODEL', 'gemini-3.1-flash-lite')
 DOSSIER_MODEL   = os.getenv('DOSSIER_MODEL', 'gemini-3.1-pro')
 DB_PATH         = '/data/psyche.db'
 
+# Robust pathing for local assets
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+QUESTIONS_JSON = os.path.join(BASE_DIR, 'questions.json')
+
 # Startup Validation
 if not DISCORD_TOKEN: raise EnvironmentError("DISCORD_TOKEN missing.")
 if not GEMINI_API_KEY: raise EnvironmentError("GEMINI_API_KEY missing.")
@@ -541,10 +545,18 @@ async def assessment(ctx, quiz_type: str = None):
 
     quiz_type = quiz_type.lower()
 
-    # Load questions from local JSON
-    with open('questions.json', 'r') as f:
-        data = json.load(f)
-    questions = data.get(quiz_type, [])
+    # Load questions from local JSON with path hardening
+    try:
+        with open(QUESTIONS_JSON, 'r') as f:
+            data = json.load(f)
+        questions = data.get(quiz_type, [])
+    except FileNotFoundError:
+        return await ctx.send("❌ **System Error**: `questions.json` is missing from the server root. Forensic assessment module is offline.")
+    except Exception as e:
+        return await ctx.send(f"❌ **System Error**: Failed to load assessment data: {str(e)}")
+
+    if not questions:
+        return await ctx.send(f"❌ **Data Void**: No questions found for test type `{quiz_type}`.")
 
     # Check for existing session
     async with bot.db.execute("SELECT user_id FROM quiz_sessions WHERE user_id = ?", (str(ctx.author.id),)) as cursor:
@@ -577,9 +589,15 @@ async def assessment_resume(ctx):
         quiz_type, progress, answers_json = row
         answers = json.loads(answers_json)
 
-    with open('questions.json', 'r') as f:
-        data = json.load(f)
-    questions = data.get(quiz_type, [])
+    try:
+        with open(QUESTIONS_JSON, 'r') as f:
+            data = json.load(f)
+        questions = data.get(quiz_type, [])
+    except Exception:
+        return await ctx.send("❌ **System Error**: `questions.json` inaccessible.")
+
+    if not questions or progress >= len(questions):
+        return await ctx.send("❌ **Session Error**: Assessment data has shifted or corrupted. Cannot resume.")
 
     view = AssessmentView(bot, ctx.author.id, quiz_type, questions, progress, answers)
     embed = discord.Embed(
@@ -1098,14 +1116,22 @@ async def system_query(ctx, target_id: str, *, query: str):
 @bot.command(name="help")
 async def help_command(ctx):
     embed = discord.Embed(
-        title="🧠 Psyche v2 | Forensic Protocol",
-        description="Authorized command modules for psychological reconstruction.",
+        title="🧠 Psyche v2 | Forensic Operational Manual",
+        description="Authorized protocol for digital behavioral reconstruction.",
         color=0x2f3136
     )
-    embed.add_field(name="📡 Utility", value="`!ping` - Connection health check\n`!purge_my_data` - Privacy wipe", inline=False)
-    embed.add_field(name="🕵️ Forensics", value="`!map_interactions` - Global server history scrape\n`!behavior_scan @user` - AI linguistic snapshot (Flash)", inline=False)
-    embed.add_field(name="🔬 Clinical", value="`!assessment ocean` - Launch OCEAN test\n`!assessment_resume` - Continue test\n`!generate_dossier` - Full profile synthesis (Pro)", inline=False)
-    await ctx.send(embed=embed)
+    embed.add_field(name="🛰️ Diagnostics", value="`!ping` - Check system uplink status", inline=False)
+    embed.add_field(name="📡 Acquisition", value="`!map_interactions` - Reconstruct server history", inline=False)
+    embed.add_field(name="🕵️ Profiling", value="`!behavior_scan` - Analyze linguistic fingerprints", inline=False)
+    embed.add_field(name="🔬 Validation", value="`!assessment` - Guided psychiatric interview", inline=False)
+    embed.add_field(name="🛡️ Security", value="`!purge_my_data` - Total digital erasure (The Shredder)", inline=False)
+    
+    embed.set_footer(text="RESTRICTED ACCESS | FOR FORENSIC USE ONLY")
+    await ctx.send(embed=apply_disclaimer(embed))
 
 if __name__ == '__main__':
-    bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
+    # Get the proxy from the environment for HF stability
+    proxy_url = os.getenv('https_proxy') or os.getenv('HTTP_PROXY')
+    
+    # Run with the official proxy parameter
+    bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None, proxy=proxy_url)
