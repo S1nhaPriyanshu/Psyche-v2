@@ -6,11 +6,18 @@ os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = certifi.where() # Extra for 2026 stability
 
-# Unset restrictive Hugging Face proxies to prevent ClientConnectorError timeouts
-os.environ.pop('http_proxy', None)
-os.environ.pop('https_proxy', None)
-os.environ.pop('HTTP_PROXY', None)
-os.environ.pop('HTTPS_PROXY', None)
+import aiohttp
+import ssl
+
+# =============================================================================
+# NETWORK STABILIZATION FOR HUGGING FACE
+# =============================================================================
+# 1. Force aiohttp to trust the environment (proxy + SSL certs)
+_orig_session_init = aiohttp.ClientSession.__init__
+def _patched_session_init(self, *args, **kwargs):
+    kwargs['trust_env'] = True
+    _orig_session_init(self, *args, **kwargs)
+aiohttp.ClientSession.__init__ = _patched_session_init
 
 # =============================================================================
 # Psyche v2 — Core Bot
