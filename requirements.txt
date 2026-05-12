@@ -1,0 +1,16 @@
+# =============================================================================
+# Psyche v2 — Python Dependencies
+# Pinned for stability on Hugging Face Spaces (Python 3.11)
+# =============================================================================
+
+# Discord bot framework (aiohttp is bundled with this — used for heartbeat too)
+discord.py>=2.3.2
+
+# Google Gemini AI engine
+google-generativeai>=0.8.0
+
+# Environment variable loader (for local .env development)
+python-dotenv>=1.0.1
+
+# SSL certificate bundle — fixes HF Spaces "Offline" gateway errors
+certifi>=2024.0.0
