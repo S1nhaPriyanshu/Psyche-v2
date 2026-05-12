@@ -24,9 +24,10 @@ _orig_connect = connector.TCPConnector.connect
 async def _patched_connect(self, req, traces, timeout):
     hf_proxy = os.getenv('https_proxy') or os.getenv('http_proxy')
     if hf_proxy:
-        # Redirect all major API traffic through the HF tunnel
-        if any(host in req.url.host for host in ["discord.com", "googleapis.com", "discordapp.com"]):
-            req.update_proxy(hf_proxy, None, None)
+        # Force the proxy attribute directly on the request object
+        req.proxy = hf_proxy
+        if "discord.com" in req.url.host:
+            log.debug(f"FORCING PROXY TUNNEL -> {req.url.host}")
     return await _orig_connect(self, req, traces, timeout)
 connector.TCPConnector.connect = _patched_connect
 
