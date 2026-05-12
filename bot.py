@@ -1026,4 +1026,6 @@ async def help_command(ctx):
     await ctx.send(embed=apply_disclaimer(embed))
 
 if __name__ == '__main__':
-    bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
+    # Force the use of the Hugging Face proxy if it exists
+    proxy = os.getenv('https_proxy') or os.getenv('http_proxy')
+    bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None, proxy=proxy)
