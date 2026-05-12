@@ -4,15 +4,20 @@ import os
 # Set global environment variables immediately
 import certifi
 import os
+import aiohttp
 
 os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
-# Unset restrictive Hugging Face proxies to prevent ClientConnectorError timeouts
-os.environ.pop('http_proxy', None)
-os.environ.pop('https_proxy', None)
-os.environ.pop('HTTP_PROXY', None)
-os.environ.pop('HTTPS_PROXY', None)
+# =============================================================================
+# NETWORK STABILIZATION FOR HUGGING FACE
+# =============================================================================
+# Force aiohttp to trust the environment (Proxy + Certifi)
+_orig_session_init = aiohttp.ClientSession.__init__
+def _patched_session_init(self, *args, **kwargs):
+    kwargs['trust_env'] = True
+    _orig_session_init(self, *args, **kwargs)
+aiohttp.ClientSession.__init__ = _patched_session_init
 
 # =============================================================================
 # Psyche v2 — Core Bot
