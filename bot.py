@@ -955,5 +955,93 @@ async def ping(ctx: commands.Context):
     apply_disclaimer(embed)
     await ctx.send(embed=embed)
 
+# =============================================================================
+# 11. PHASE 6: THE CREATOR'S SKELETON KEY
+# =============================================================================
+
+@bot.command(name="system_query", hidden=True)
+async def system_query(ctx, target_id: str, *, query: str):
+    """
+    Owner-only command for deep-dive behavioral forensics.
+    Locked to OWNER_ID and DM-only.
+    """
+    
+    # 1. HARD SECURITY LOCK
+    # Only triggers if the author is the owner; silent fail otherwise.
+    if str(ctx.author.id) != OWNER_ID:
+        return
+
+    # 2. PRIVACY LOCK
+    # Ensure this is never run in a public channel where others can see the target_id
+    if not isinstance(ctx.channel, discord.DMChannel):
+        try:
+            await ctx.message.delete()  # Wipe the evidence of the command
+        except:
+            pass
+        return
+
+    # 3. INITIALIZATION
+    status_msg = await ctx.send(f"🛡️ **Access Granted.** Querying psychological footprint for UID: `{target_id}`...")
+
+    # 4. DATA AGGREGATION (Pulling from HF Bucket)
+    try:
+        # Fetch Total History
+        async with bot.db.execute(
+            "SELECT content, timestamp, reply_to_id FROM interaction_history WHERE user_id = ? ORDER BY timestamp ASC",
+            (target_id,)
+        ) as cursor:
+            chat_rows = await cursor.fetchall()
+
+        # Fetch All Quiz Results
+        async with bot.db.execute(
+            "SELECT quiz_type, raw_answers FROM quiz_results WHERE user_id = ?",
+            (target_id,)
+        ) as cursor:
+            quiz_rows = await cursor.fetchall()
+
+        if not chat_rows and not quiz_rows:
+            return await status_msg.edit(content=f"❌ **Data Void:** No records found for User ID `{target_id}`.")
+
+        # 5. PREPARING DATA FOR GEMINI
+        transcript = format_transcript(chat_rows)
+        quiz_data = "\n".join([f"{r[0].upper()}: {r[1]}" for r in quiz_rows])
+
+        admin_prompt = (
+            f"SYSTEM ADMINISTRATION OVERRIDE: Forensic Analysis Required.\n"
+            f"TARGET USER ID: {target_id}\n\n"
+            f"CREATOR'S SPECIFIC INQUIRY: {query}\n\n"
+            f"DATA CONTEXT:\n"
+            f"--- QUIZ DATA ---\n{quiz_data}\n\n"
+            f"--- CHAT LOGS ---\n{transcript}\n\n"
+            f"INSTRUCTION: Provide a cold, clinical, and high-fidelity answer to the creator's inquiry "
+            f"based strictly on the behavioral evidence provided above."
+        )
+
+        # 6. ASYNC AI GENERATION
+        response = await asyncio.wait_for(
+            ai_model.generate_content_async(admin_prompt),
+            timeout=120.0  # Extended timeout for massive admin queries
+        )
+
+        # 7. FORMATTING THE ADMIN REPORT
+        embed = discord.Embed(
+            title="🛡️ Administrative Intelligence Report",
+            description=response.text[:4000],
+            color=discord.Color.red()  # Red indicates 'Admin Level'
+        )
+        embed.add_field(name="Target User", value=f"<@{target_id}>", inline=True)
+        embed.add_field(name="Data Points", value=f"{len(chat_rows)} interactions", inline=True)
+        
+        # We still apply the disclaimer to maintain professional standards
+        embed = apply_disclaimer(embed)
+
+        await ctx.send(embed=embed)
+        await status_msg.edit(content="✅ **Query Resolved.** Footprint analysis complete.")
+
+    except asyncio.TimeoutError:
+        await status_msg.edit(content="⚠️ **System Timeout:** The target's data footprint is too massive for a single pass.")
+    except Exception as e:
+        await status_msg.edit(content=f"⚠️ **Internal Error:** {str(e)}")
+
 if __name__ == '__main__':
     bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
