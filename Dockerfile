@@ -11,7 +11,9 @@ LABEL description="Psyche: High-Reasoning AI Psychologist"
 # --- Environment Configuration ---
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
-    PIP_NO_CACHE_DIR=1
+    PIP_NO_CACHE_DIR=1 \
+    SSL_CERT_DIR=/etc/ssl/certs \
+    SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
 
 WORKDIR /app
 

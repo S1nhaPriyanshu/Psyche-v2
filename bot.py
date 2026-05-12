@@ -6,6 +6,12 @@ os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = certifi.where() # Extra for 2026 stability
 
+# Unset restrictive Hugging Face proxies to prevent ClientConnectorError timeouts
+os.environ.pop('http_proxy', None)
+os.environ.pop('https_proxy', None)
+os.environ.pop('HTTP_PROXY', None)
+os.environ.pop('HTTPS_PROXY', None)
+
 # =============================================================================
 # Psyche v2 — Core Bot
 # A privacy-first, high-reasoning Discord behavioral analysis bot.
