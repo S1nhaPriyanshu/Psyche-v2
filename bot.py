@@ -19,24 +19,6 @@ import signal
 import json
 import time
 from datetime import datetime
-import aiohttp
-import ssl
-
-# The Connector Refactor: Force all aiohttp clients to use the Certifi context
-_orig_TCPConnector = aiohttp.TCPConnector
-def _patched_TCPConnector(*args, **kwargs):
-    if 'ssl' not in kwargs or kwargs['ssl'] is None or kwargs['ssl'] is True:
-        kwargs['ssl'] = ssl.create_default_context(cafile=certifi.where())
-    return _orig_TCPConnector(*args, **kwargs)
-aiohttp.TCPConnector = _patched_TCPConnector
-
-# The Proxy Refactor: Force all aiohttp sessions to trust Hugging Face's network proxies
-_orig_ClientSession = aiohttp.ClientSession
-class _patched_ClientSession(_orig_ClientSession):
-    def __init__(self, *args, **kwargs):
-        kwargs['trust_env'] = True
-        super().__init__(*args, **kwargs)
-aiohttp.ClientSession = _patched_ClientSession
 
 # Now safe to import network-reliant libraries
 import discord
