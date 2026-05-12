@@ -10,8 +10,19 @@ os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
 # =============================================================================
-# NETWORK STABILIZATION FOR HUGGING FACE
+# TRAFFIC REDIRECTION FOR HUGGING FACE
 # =============================================================================
+# Force every low-level aiohttp connection to use the HF proxy for Discord
+from aiohttp import connector
+
+_orig_connect = connector.TCPConnector.connect
+async def _patched_connect(self, req, traces, timeout):
+    hf_proxy = os.getenv('https_proxy') or os.getenv('http_proxy')
+    if hf_proxy and "discord.com" in req.url.host:
+        req.update_proxy(hf_proxy, None, None)
+    return await _orig_connect(self, req, traces, timeout)
+connector.TCPConnector.connect = _patched_connect
+
 # Force aiohttp to trust the environment (Proxy + Certifi)
 _orig_session_init = aiohttp.ClientSession.__init__
 def _patched_session_init(self, *args, **kwargs):
@@ -411,13 +422,10 @@ class PsycheBot(commands.Bot):
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
-hf_proxy = os.getenv('https_proxy') or os.getenv('http_proxy')
-
 bot = PsycheBot(
     command_prefix='!',
     intents=intents,
-    help_command=None,
-    proxy=hf_proxy
+    help_command=None
 )
 
 @bot.event
