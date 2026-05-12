@@ -30,6 +30,13 @@ def _patched_TCPConnector(*args, **kwargs):
     return _orig_TCPConnector(*args, **kwargs)
 aiohttp.TCPConnector = _patched_TCPConnector
 
+# The Proxy Refactor: Force all aiohttp sessions to trust Hugging Face's network proxies
+_orig_ClientSession = aiohttp.ClientSession
+def _patched_ClientSession(*args, **kwargs):
+    kwargs['trust_env'] = True
+    return _orig_ClientSession(*args, **kwargs)
+aiohttp.ClientSession = _patched_ClientSession
+
 # Now safe to import network-reliant libraries
 import discord
 from discord.ext import commands
