@@ -132,7 +132,101 @@ def is_owner(user_id: int) -> bool:
     return str(user_id) == OWNER_ID
 
 # =============================================================================
-# 5. PHASE 3: ANALYSIS HELPERS & COOLDOWNS
+# 5. PHASE 4: QUIZ DATA & ENGINE
+# =============================================================================
+
+QUIZ_DATA = {
+    "mbti": {
+        "name": "MBTI (16 Personalities)",
+        "instructions": "For each question, reply with **A** or **B**. Pick the one that feels more natural to you.",
+        "questions": [
+            {"q": "At a party, do you:", "a": "Interact with many, including strangers (E)", "b": "Interact with a few, known to you (I)", "dim": "EI"},
+            {"q": "Are you more:", "a": "Realistic than speculative (S)", "b": "Speculative than realistic (N)", "dim": "SN"},
+            {"q": "Is it worse to:", "a": "Have your head in the clouds (S)", "b": "Be in a rut (N)", "dim": "SN"},
+            {"q": "Are you more impressed by:", "a": "Principles (T)", "b": "Emotions (F)", "dim": "TF"},
+            {"q": "Are you more drawn toward the:", "a": "Convincing (T)", "b": "Touching (F)", "dim": "TF"},
+            {"q": "Do you prefer to work:", "a": "To deadlines (J)", "b": "Just 'whenever' (P)", "dim": "JP"},
+            {"q": "Do you tend to choose:", "a": "Rather carefully (J)", "b": "Somewhat impulsively (P)", "dim": "JP"},
+            {"q": "In your social groups, are you:", "a": "The first to hear news (E)", "b": "The last to hear news (I)", "dim": "EI"},
+            {"q": "Do you prefer:", "a": "Clear boundaries (S)", "b": "Possibilities (N)", "dim": "SN"},
+            {"q": "Are you more:", "a": "Practical (S)", "b": "Conceptual (N)", "dim": "SN"},
+            {"q": "Which is a higher compliment:", "a": "A consistent person (T)", "b": "A devoted person (F)", "dim": "TF"},
+            {"q": "In making decisions, do you rely more on:", "a": "Data (T)", "b": "Inner values (F)", "dim": "TF"},
+            {"q": "Are you more comfortable with:", "a": "Written plans (J)", "b": "Spontaneous options (P)", "dim": "JP"},
+            {"q": "Do you prefer things to be:", "a": "Settled and decided (J)", "b": "Unsettled and open (P)", "dim": "JP"},
+            {"q": "Do you consider yourself:", "a": "An outgoing person (E)", "b": "A private person (I)", "dim": "EI"},
+            {"q": "Do you prefer to focus on:", "a": "What is (S)", "b": "What could be (N)", "dim": "SN"},
+            {"q": "Do you value more in yourself:", "a": "Reason (T)", "b": "Compassion (F)", "dim": "TF"},
+            {"q": "Is it your way to:", "a": "Make things happen (J)", "b": "Let things happen (P)", "dim": "JP"},
+            {"q": "Do you prefer to:", "a": "Talk more than listen (E)", "b": "Listen more than talk (I)", "dim": "EI"},
+            {"q": "Are you more comfortable with:", "a": "Concrete facts (S)", "b": "Abstract theories (N)", "dim": "SN"}
+        ]
+    },
+    "ocean": {
+        "name": "Big Five (OCEAN)",
+        "instructions": "Reply with a number from **1 to 5**:\n1: Strongly Disagree\n2: Disagree\n3: Neutral\n4: Agree\n5: Strongly Agree",
+        "questions": [
+            {"q": "I see myself as someone who is curious about many different things.", "dim": "O"},
+            {"q": "I see myself as someone who is thorough in my work.", "dim": "C"},
+            {"q": "I see myself as someone who is talkative.", "dim": "E"},
+            {"q": "I see myself as someone who is helpful and unselfish with others.", "dim": "A"},
+            {"q": "I see myself as someone who worries a lot.", "dim": "N"},
+            {"q": "I see myself as someone who has an active imagination.", "dim": "O"},
+            {"q": "I see myself as someone who tends to be disorganized.", "dim": "C", "rev": True},
+            {"q": "I see myself as someone who is full of energy.", "dim": "E"},
+            {"q": "I see myself as someone who has a forgiving nature.", "dim": "A"},
+            {"q": "I see myself as someone who is relaxed, handles stress well.", "dim": "N", "rev": True},
+            {"q": "I see myself as someone who values artistic, aesthetic experiences.", "dim": "O"},
+            {"q": "I see myself as someone who is dependable.", "dim": "C"},
+            {"q": "I see myself as someone who is outgoing, sociable.", "dim": "E"},
+            {"q": "I see myself as someone who is generally trusting.", "dim": "A"},
+            {"q": "I see myself as someone who gets nervous easily.", "dim": "N"},
+            {"q": "I see myself as someone who is ingenious, a deep thinker.", "dim": "O"},
+            {"q": "I see myself as someone who can be somewhat careless.", "dim": "C", "rev": True},
+            {"q": "I see myself as someone who is reserved.", "dim": "E", "rev": True},
+            {"q": "I see myself as someone who is considerate and kind to almost everyone.", "dim": "A"},
+            {"q": "I see myself as someone who stays calm in tense situations.", "dim": "N", "rev": True},
+            {"q": "I see myself as someone who prefers work that is routine.", "dim": "O", "rev": True},
+            {"q": "I see myself as someone who follows through with plans.", "dim": "C"},
+            {"q": "I see myself as someone who is sometimes shy, inhibited.", "dim": "E", "rev": True},
+            {"q": "I see myself as someone who is sometimes rude to others.", "dim": "A", "rev": True},
+            {"q": "I see myself as someone who is depressed, blue.", "dim": "N"}
+        ]
+    }
+}
+
+async def calculate_scores(quiz_type, answers):
+    """Calculates final scores or types from raw answers."""
+    if quiz_type == "mbti":
+        dims = {"EI": 0, "SN": 0, "TF": 0, "JP": 0}
+        questions = QUIZ_DATA["mbti"]["questions"]
+        for i, ans in enumerate(answers):
+            dim = questions[i]["dim"]
+            dims[dim] += 1 if ans == "A" else -1
+        
+        mbti_type = (
+            ("E" if dims["EI"] >= 0 else "I") +
+            ("S" if dims["SN"] >= 0 else "N") +
+            ("T" if dims["TF"] >= 0 else "F") +
+            ("J" if dims["JP"] >= 0 else "P")
+        )
+        return f"MBTI Type: {mbti_type}"
+    
+    elif quiz_type == "ocean":
+        scores = {"O": 0, "C": 0, "E": 0, "A": 0, "N": 0}
+        questions = QUIZ_DATA["ocean"]["questions"]
+        for i, ans in enumerate(answers):
+            val = int(ans)
+            q = questions[i]
+            if q.get("rev"): val = 6 - val # Reverse scoring
+            scores[q["dim"]] += val
+        
+        # Calculate percentage (assuming 5 Qs per dim, max 25 pts)
+        results = [f"{k}: {v}/25" for k, v in scores.items()]
+        return "OCEAN Scores: " + ", ".join(results)
+
+# =============================================================================
+# 6. PHASE 3: ANALYSIS HELPERS & COOLDOWNS
 # =============================================================================
 
 async def is_on_cooldown(user_id: str, command: str, seconds: int):
@@ -400,7 +494,130 @@ async def ultimate_analysis(ctx: commands.Context):
             await ctx.reply("⚠️ **Synthesis Failed**: The AI encountered a complex conflict. Try again later.")
 
 # =============================================================================
-# 9. SYSTEM COMMANDS
+# 9. PHASE 4: QUIZ COMMANDS & LOOP
+# =============================================================================
+
+async def run_quiz_loop(ctx, quiz_type, start_index=0, existing_answers=None):
+    """The interactive DM-based quiz loop."""
+    user_id = str(ctx.author.id)
+    data = QUIZ_DATA[quiz_type]
+    answers = existing_answers or []
+    
+    await ctx.author.send(f"🏁 **Starting {data['name']}**\n{data['instructions']}\nType `cancel` at any time to abort.")
+
+    for i in range(start_index, len(data["questions"])):
+        q = data["questions"][i]
+        prompt_text = f"**Question {i+1}/{len(data['questions'])}**\n{q['q']}"
+        if quiz_type == "mbti":
+            prompt_text += f"\n**A)** {q['a']}\n**B)** {q['b']}"
+        
+        await ctx.author.send(prompt_text)
+
+        def check(m):
+            if m.author.id != ctx.author.id or not isinstance(m.channel, discord.DMChannel):
+                return False
+            val = m.content.upper().strip()
+            if val == "CANCEL": return True
+            if quiz_type == "mbti": return val in ["A", "B"]
+            if quiz_type == "ocean": return val in ["1", "2", "3", "4", "5"]
+            return False
+
+        try:
+            msg = await bot.wait_for('message', timeout=300.0, check=check)
+            val = msg.content.upper().strip()
+            
+            if val == "CANCEL":
+                await ctx.author.send("❌ Quiz cancelled. Use `!quiz resume` later to pick up where you left off.")
+                return
+
+            answers.append(val)
+            # Persistence
+            await bot.db.execute(
+                "INSERT OR REPLACE INTO quiz_sessions (user_id, quiz_type, current_question, answers) VALUES (?, ?, ?, ?)",
+                (user_id, quiz_type, i + 1, json.dumps(answers))
+            )
+            await bot.db.commit()
+
+        except asyncio.TimeoutError:
+            await ctx.author.send("⏰ **Timeout**: You took too long. I've saved your progress. Use `!quiz resume` when you're back!")
+            return
+
+    # Completion
+    await ctx.author.send("✅ **Quiz Complete!** Generating your psychological profile...")
+    
+    scores = await calculate_scores(quiz_type, answers)
+    
+    # Gemini Synthesis
+    prompt = (
+        f"The user scored {scores} on the {data['name']} test. "
+        "Write a personalized 200-word summary of these results in a professional "
+        "psychological tone. Use insight and depth."
+    )
+    
+    try:
+        response = await asyncio.to_thread(model.generate_content, prompt)
+        summary = response.text
+        
+        # Save Results
+        await bot.db.execute(
+            "INSERT OR REPLACE INTO quiz_results (user_id, guild_id, quiz_type, result_summary, raw_answers, completed_at) VALUES (?, ?, ?, ?, ?, ?)",
+            (user_id, str(ctx.guild.id) if ctx.guild else "0", quiz_type, summary, json.dumps(answers), datetime.now().isoformat())
+        )
+        # Wipe Session
+        await bot.db.execute("DELETE FROM quiz_sessions WHERE user_id = ?", (user_id,))
+        await bot.db.commit()
+
+        await ctx.author.send(f"📊 **Your Results Summary:**\n\n{summary}{DISCLAIMER}")
+    except Exception as e:
+        log.error("Quiz Gemini Error: %s", e)
+        await ctx.author.send("⚠️ Synthesis failed, but your raw scores were saved.")
+
+@bot.command(name='take_test')
+async def take_test(ctx, test_type: str = None):
+    """Start a personality assessment (!take_test mbti|ocean)."""
+    if not is_opted_in(ctx.author):
+        return await ctx.reply("❌ Privacy gate: You need the `PsycheOptIn` role.")
+    
+    if not test_type or test_type.lower() not in QUIZ_DATA:
+        return await ctx.reply("❓ Please specify: `!take_test mbti` or `!take_test ocean`.")
+
+    user_id = str(ctx.author.id)
+    async with bot.db.execute("SELECT quiz_type FROM quiz_sessions WHERE user_id = ?", (user_id,)) as cursor:
+        if await cursor.fetchone():
+            return await ctx.reply("⚠️ You have an active session! Use `!quiz resume` or `!quiz cancel`.")
+
+    try:
+        await ctx.author.send("🧠 **Initializing Psyche Assessment Module...**")
+        await ctx.reply("📩 Check your DMs to begin!")
+        await run_quiz_loop(ctx, test_type.lower())
+    except discord.Forbidden:
+        await ctx.reply("❌ I can't DM you! Please open your privacy settings.")
+
+@bot.group(name='quiz', invoke_without_command=True)
+async def quiz(ctx):
+    """Quiz management commands (!quiz resume|cancel)."""
+    await ctx.reply("Usage: `!quiz resume` or `!quiz cancel`")
+
+@quiz.command(name='resume')
+async def quiz_resume(ctx):
+    """Resumes an in-progress quiz."""
+    async with bot.db.execute("SELECT quiz_type, current_question, answers FROM quiz_sessions WHERE user_id = ?", (str(ctx.author.id),)) as cursor:
+        row = await cursor.fetchone()
+        if not row:
+            return await ctx.reply("❌ No active session found.")
+        
+        await ctx.reply("📩 Resuming in DMs...")
+        await run_quiz_loop(ctx, row[0], start_index=row[1], existing_answers=json.loads(row[2]))
+
+@quiz.command(name='cancel')
+async def quiz_cancel(ctx):
+    """Wipes an in-progress quiz session."""
+    await bot.db.execute("DELETE FROM quiz_sessions WHERE user_id = ?", (str(ctx.author.id),))
+    await bot.db.commit()
+    await ctx.reply("🗑️ Active session wiped.")
+
+# =============================================================================
+# 10. SYSTEM COMMANDS
 # =============================================================================
 
 @bot.command(name='ping')
