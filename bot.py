@@ -58,8 +58,10 @@ try:
     OWNER_ID = int(os.getenv('OWNER_ID', '0'))
 except ValueError:
     OWNER_ID = 0
-SCAN_MODEL      = os.getenv('SCAN_MODEL', 'gemini-3.1-flash-lite')
-DOSSIER_MODEL   = os.getenv('DOSSIER_MODEL', 'gemini-3.1-pro')
+# ---------------------------------------------------------
+SCAN_MODEL = os.getenv('SCAN_MODEL', 'gemini-3.1-flash-lite-preview')
+DOSSIER_MODEL = os.getenv('DOSSIER_MODEL', 'gemini-3.1-pro-preview')
+# ---------------------------------------------------------
 DB_PATH         = '/data/psyche.db'
 
 # Robust pathing for local assets
@@ -663,17 +665,31 @@ async def map_interactions(ctx: commands.Context):
         )
         await bot.db.commit()
 
-    # 5. Completion UI
+    # 5. Completion UI with Interactive Buttons
+    class AnalysisView(discord.ui.View):
+        def __init__(self):
+            super().__init__(timeout=None)
+
+        @discord.ui.button(label="🧬 Generate Dossier", style=discord.ButtonStyle.premium)
+        async def dossier(self, interaction: discord.Interaction, button: discord.ui.Button):
+            if interaction.user.id != ctx.author.id: return
+            await interaction.response.send_message("🧬 **Synthesis Initialized.** Check your DMs shortly.", ephemeral=True)
+            await ctx.invoke(bot.get_command('generate_dossier'))
+
+        @discord.ui.button(label="📡 Quick Behavior Scan", style=discord.ButtonStyle.secondary)
+        async def scan(self, interaction: discord.Interaction, button: discord.ui.Button):
+            if interaction.user.id != ctx.author.id: return
+            await interaction.response.send_message("📡 **Scan Initialized.** Check your DMs shortly.", ephemeral=True)
+            await ctx.invoke(bot.get_command('behavior_scan'))
+
     embed = discord.Embed(
         title="✅ Social Web Mapped",
         description=f"Successfully extracted and secured **{total_mapped:,}** interactions for {ctx.author.mention}.",
         color=discord.Color.brand_green()
     )
-    embed.set_footer(
-        text="⚠️ DISCLAIMER: This data is securely stored for AI behavioral conjecture only. "
-             "Seek professional help for mental health concerns."
-    )
-    await status_msg.edit(content=None, embed=embed)
+    embed.set_footer(text="RESTRICTED ACCESS | FOR FORENSIC USE ONLY")
+    
+    await status_msg.edit(content=None, embed=embed, view=AnalysisView())
 
 # --- THE SCRUB PROTOCOL (Data Rights) ---
 @bot.command(name='purge_my_data')
@@ -755,10 +771,12 @@ async def generate_dossier(ctx):
     user_id = str(ctx.author.id)
     current_time = time.time()
 
-    # 1. Strict 7-Day Cooldown Check
+    # 1. Strict 7-Day Cooldown Check (Bypassed for Owner/Admins)
+    is_vip = is_owner(ctx.author.id) or ctx.author.guild_permissions.administrator
+    
     async with bot.db.execute("SELECT last_dossier_time FROM cooldowns WHERE user_id = ?", (user_id,)) as cursor:
         row = await cursor.fetchone()
-        if row:
+        if row and not is_vip:
             elapsed = current_time - row[0]
             if elapsed < 604800:  # 7 days in seconds
                 days_left = round((604800 - elapsed) / 86400, 1)
