@@ -217,29 +217,54 @@ class AssessmentView(discord.ui.View):
         self.answers = answers or []
 
     async def update_question(self, interaction: discord.Interaction):
-        """Edits the existing message to the next question. Minimizes Discord API calls."""
+        """Edits the existing message to the next question. Handles both Likert and A/B formats."""
         if self.progress >= len(self.questions):
             await self.finish_quiz(interaction)
             return
 
-        q_text = self.questions[self.progress]
+        q_data = self.questions[self.progress]
+        q_text = q_data["q"]
+        
+        # Build the question prompt based on format
+        description = f"**Question {self.progress + 1} of {len(self.questions)}**\n\n{q_text}"
+        if "a" in q_data and "b" in q_data:
+            description += f"\n\n**A)** {q_data['a']}\n**B)** {q_data['b']}"
+            # Show A/B buttons, hide 1-5
+            self.enable_ab_mode()
+        else:
+            self.enable_likert_mode()
+
         embed = discord.Embed(
             title=f"Assessment: {self.quiz_type.upper()}",
-            description=f"**Question {self.progress + 1} of {len(self.questions)}**\n\n{q_text}",
+            description=description,
             color=discord.Color.blue()
         )
         embed = apply_disclaimer(embed)
         await interaction.response.edit_message(embed=embed, view=self)
 
-    async def handle_choice(self, interaction: discord.Interaction, value: int):
-        """Handles button clicks and saves raw data to HF Bucket."""
+    def enable_ab_mode(self):
+        """Switches UI to A/B buttons."""
+        self.btn_a.disabled = False
+        self.btn_b.disabled = False
+        for btn in [self.c1, self.c2, self.c3, self.c4, self.c5]:
+            btn.disabled = True
+
+    def enable_likert_mode(self):
+        """Switches UI to 1-5 Likert buttons."""
+        self.btn_a.disabled = True
+        self.btn_b.disabled = True
+        for btn in [self.c1, self.c2, self.c3, self.c4, self.c5]:
+            btn.disabled = False
+
+    async def handle_choice(self, interaction: discord.Interaction, value: str):
+        """Handles choice selection and saves progress."""
         if interaction.user.id != self.user_id:
             return await interaction.response.send_message("This session is not yours.", ephemeral=True)
 
         self.answers.append(value)
         self.progress += 1
 
-        # Save Raw Progress to DB (Zero-CPU Strategy)
+        # Persistence
         await self.bot.db.execute(
             "INSERT OR REPLACE INTO quiz_sessions (user_id, quiz_type, progress, answers) VALUES (?, ?, ?, ?)",
             (str(self.user_id), self.quiz_type, self.progress, json.dumps(self.answers))
@@ -248,17 +273,23 @@ class AssessmentView(discord.ui.View):
 
         await self.update_question(interaction)
 
-    # Likert Scale Buttons (1-5)
+    # UI BUTTONS
+    @discord.ui.button(label="A", style=discord.ButtonStyle.green, disabled=True)
+    async def btn_a(self, interaction, button): await self.handle_choice(interaction, "A")
+    
+    @discord.ui.button(label="B", style=discord.ButtonStyle.green, disabled=True)
+    async def btn_b(self, interaction, button): await self.handle_choice(interaction, "B")
+
     @discord.ui.button(label="1", style=discord.ButtonStyle.grey)
-    async def c1(self, interaction, button): await self.handle_choice(interaction, 1)
+    async def c1(self, interaction, button): await self.handle_choice(interaction, "1")
     @discord.ui.button(label="2", style=discord.ButtonStyle.grey)
-    async def c2(self, interaction, button): await self.handle_choice(interaction, 2)
+    async def c2(self, interaction, button): await self.handle_choice(interaction, "2")
     @discord.ui.button(label="3", style=discord.ButtonStyle.grey)
-    async def c3(self, interaction, button): await self.handle_choice(interaction, 3)
+    async def c3(self, interaction, button): await self.handle_choice(interaction, "3")
     @discord.ui.button(label="4", style=discord.ButtonStyle.grey)
-    async def c4(self, interaction, button): await self.handle_choice(interaction, 4)
+    async def c4(self, interaction, button): await self.handle_choice(interaction, "4")
     @discord.ui.button(label="5", style=discord.ButtonStyle.grey)
-    async def c5(self, interaction, button): await self.handle_choice(interaction, 5)
+    async def c5(self, interaction, button): await self.handle_choice(interaction, "5")
 
     async def finish_quiz(self, interaction: discord.Interaction):
         """Zero-CPU Completion: No math, just data handoff."""
@@ -286,95 +317,7 @@ class AssessmentView(discord.ui.View):
 # 5. PHASE 4: QUIZ DATA & ENGINE
 # =============================================================================
 
-QUIZ_DATA = {
-    "mbti": {
-        "name": "MBTI (16 Personalities)",
-        "instructions": "For each question, reply with **A** or **B**. Pick the one that feels more natural to you.",
-        "questions": [
-            {"q": "At a party, do you:", "a": "Interact with many, including strangers (E)", "b": "Interact with a few, known to you (I)", "dim": "EI"},
-            {"q": "Are you more:", "a": "Realistic than speculative (S)", "b": "Speculative than realistic (N)", "dim": "SN"},
-            {"q": "Is it worse to:", "a": "Have your head in the clouds (S)", "b": "Be in a rut (N)", "dim": "SN"},
-            {"q": "Are you more impressed by:", "a": "Principles (T)", "b": "Emotions (F)", "dim": "TF"},
-            {"q": "Are you more drawn toward the:", "a": "Convincing (T)", "b": "Touching (F)", "dim": "TF"},
-            {"q": "Do you prefer to work:", "a": "To deadlines (J)", "b": "Just 'whenever' (P)", "dim": "JP"},
-            {"q": "Do you tend to choose:", "a": "Rather carefully (J)", "b": "Somewhat impulsively (P)", "dim": "JP"},
-            {"q": "In your social groups, are you:", "a": "The first to hear news (E)", "b": "The last to hear news (I)", "dim": "EI"},
-            {"q": "Do you prefer:", "a": "Clear boundaries (S)", "b": "Possibilities (N)", "dim": "SN"},
-            {"q": "Are you more:", "a": "Practical (S)", "b": "Conceptual (N)", "dim": "SN"},
-            {"q": "Which is a higher compliment:", "a": "A consistent person (T)", "b": "A devoted person (F)", "dim": "TF"},
-            {"q": "In making decisions, do you rely more on:", "a": "Data (T)", "b": "Inner values (F)", "dim": "TF"},
-            {"q": "Are you more comfortable with:", "a": "Written plans (J)", "b": "Spontaneous options (P)", "dim": "JP"},
-            {"q": "Do you prefer things to be:", "a": "Settled and decided (J)", "b": "Unsettled and open (P)", "dim": "JP"},
-            {"q": "Do you consider yourself:", "a": "An outgoing person (E)", "b": "A private person (I)", "dim": "EI"},
-            {"q": "Do you prefer to focus on:", "a": "What is (S)", "b": "What could be (N)", "dim": "SN"},
-            {"q": "Do you value more in yourself:", "a": "Reason (T)", "b": "Compassion (F)", "dim": "TF"},
-            {"q": "Is it your way to:", "a": "Make things happen (J)", "b": "Let things happen (P)", "dim": "JP"},
-            {"q": "Do you prefer to:", "a": "Talk more than listen (E)", "b": "Listen more than talk (I)", "dim": "EI"},
-            {"q": "Are you more comfortable with:", "a": "Concrete facts (S)", "b": "Abstract theories (N)", "dim": "SN"}
-        ]
-    },
-    "ocean": {
-        "name": "Big Five (OCEAN)",
-        "instructions": "Reply with a number from **1 to 5**:\n1: Strongly Disagree\n2: Disagree\n3: Neutral\n4: Agree\n5: Strongly Agree",
-        "questions": [
-            {"q": "I see myself as someone who is curious about many different things.", "dim": "O"},
-            {"q": "I see myself as someone who is thorough in my work.", "dim": "C"},
-            {"q": "I see myself as someone who is talkative.", "dim": "E"},
-            {"q": "I see myself as someone who is helpful and unselfish with others.", "dim": "A"},
-            {"q": "I see myself as someone who worries a lot.", "dim": "N"},
-            {"q": "I see myself as someone who has an active imagination.", "dim": "O"},
-            {"q": "I see myself as someone who tends to be disorganized.", "dim": "C", "rev": True},
-            {"q": "I see myself as someone who is full of energy.", "dim": "E"},
-            {"q": "I see myself as someone who has a forgiving nature.", "dim": "A"},
-            {"q": "I see myself as someone who is relaxed, handles stress well.", "dim": "N", "rev": True},
-            {"q": "I see myself as someone who values artistic, aesthetic experiences.", "dim": "O"},
-            {"q": "I see myself as someone who is dependable.", "dim": "C"},
-            {"q": "I see myself as someone who is outgoing, sociable.", "dim": "E"},
-            {"q": "I see myself as someone who is generally trusting.", "dim": "A"},
-            {"q": "I see myself as someone who gets nervous easily.", "dim": "N"},
-            {"q": "I see myself as someone who is ingenious, a deep thinker.", "dim": "O"},
-            {"q": "I see myself as someone who can be somewhat careless.", "dim": "C", "rev": True},
-            {"q": "I see myself as someone who is reserved.", "dim": "E", "rev": True},
-            {"q": "I see myself as someone who is considerate and kind to almost everyone.", "dim": "A"},
-            {"q": "I see myself as someone who stays calm in tense situations.", "dim": "N", "rev": True},
-            {"q": "I see myself as someone who prefers work that is routine.", "dim": "O", "rev": True},
-            {"q": "I see myself as someone who follows through with plans.", "dim": "C"},
-            {"q": "I see myself as someone who is sometimes shy, inhibited.", "dim": "E", "rev": True},
-            {"q": "I see myself as someone who is sometimes rude to others.", "dim": "A", "rev": True},
-            {"q": "I see myself as someone who is depressed, blue.", "dim": "N"}
-        ]
-    }
-}
-
-async def calculate_scores(quiz_type, answers):
-    """Calculates final scores or types from raw answers."""
-    if quiz_type == "mbti":
-        dims = {"EI": 0, "SN": 0, "TF": 0, "JP": 0}
-        questions = QUIZ_DATA["mbti"]["questions"]
-        for i, ans in enumerate(answers):
-            dim = questions[i]["dim"]
-            dims[dim] += 1 if ans == "A" else -1
-        
-        mbti_type = (
-            ("E" if dims["EI"] >= 0 else "I") +
-            ("S" if dims["SN"] >= 0 else "N") +
-            ("T" if dims["TF"] >= 0 else "F") +
-            ("J" if dims["JP"] >= 0 else "P")
-        )
-        return f"MBTI Type: {mbti_type}"
-    
-    elif quiz_type == "ocean":
-        scores = {"O": 0, "C": 0, "E": 0, "A": 0, "N": 0}
-        questions = QUIZ_DATA["ocean"]["questions"]
-        for i, ans in enumerate(answers):
-            val = int(ans)
-            q = questions[i]
-            if q.get("rev"): val = 6 - val # Reverse scoring
-            scores[q["dim"]] += val
-        
-        # Calculate percentage (assuming 5 Qs per dim, max 25 pts)
-        results = [f"{k}: {v}/25" for k, v in scores.items()]
-        return "OCEAN Scores: " + ", ".join(results)
+# QUIZ SCORING LOGIC REMOVED (Migrated to Gemini Deep Synthesis Engine)
 
 # =============================================================================
 # 6. PHASE 3: ANALYSIS HELPERS & COOLDOWNS
@@ -549,11 +492,12 @@ async def assessment(ctx, quiz_type: str = None):
     try:
         with open(QUESTIONS_JSON, 'r') as f:
             data = json.load(f)
-        questions = data.get(quiz_type, [])
+        quiz_type_data = data.get(quiz_type, {})
+        questions = quiz_type_data.get("questions", [])
     except FileNotFoundError:
-        return await ctx.send("❌ **System Error**: `questions.json` is missing from the server root. Forensic assessment module is offline.")
+        return await ctx.send("❌ **System Error**: `questions.json` missing.")
     except Exception as e:
-        return await ctx.send(f"❌ **System Error**: Failed to load assessment data: {str(e)}")
+        return await ctx.send(f"❌ **System Error**: {str(e)}")
 
     if not questions:
         return await ctx.send(f"❌ **Data Void**: No questions found for test type `{quiz_type}`.")
@@ -564,9 +508,17 @@ async def assessment(ctx, quiz_type: str = None):
             return await ctx.send("⚠️ You have an active session. Use `!assessment_resume` to continue.")
 
     view = AssessmentView(bot, ctx.author.id, quiz_type, questions)
+    q_data = questions[0]
+    description = f"**Question 1 of {len(questions)}**\n\n{q_data['q']}"
+    if "a" in q_data and "b" in q_data:
+        description += f"\n\n**A)** {q_data['a']}\n**B)** {q_data['b']}"
+        view.enable_ab_mode()
+    else:
+        view.enable_likert_mode()
+
     embed = discord.Embed(
         title=f"Starting {quiz_type.upper()}",
-        description=f"**Question 1:** {questions[0]}"
+        description=description
     )
 
     try:
@@ -592,7 +544,8 @@ async def assessment_resume(ctx):
     try:
         with open(QUESTIONS_JSON, 'r') as f:
             data = json.load(f)
-        questions = data.get(quiz_type, [])
+        quiz_type_data = data.get(quiz_type, {})
+        questions = quiz_type_data.get("questions", [])
     except Exception:
         return await ctx.send("❌ **System Error**: `questions.json` inaccessible.")
 
@@ -600,9 +553,17 @@ async def assessment_resume(ctx):
         return await ctx.send("❌ **Session Error**: Assessment data has shifted or corrupted. Cannot resume.")
 
     view = AssessmentView(bot, ctx.author.id, quiz_type, questions, progress, answers)
+    q_data = questions[progress]
+    description = f"**Question {progress + 1} of {len(questions)}**\n\n{q_data['q']}"
+    if "a" in q_data and "b" in q_data:
+        description += f"\n\n**A)** {q_data['a']}\n**B)** {q_data['b']}"
+        view.enable_ab_mode()
+    else:
+        view.enable_likert_mode()
+
     embed = discord.Embed(
         title=f"Resuming {quiz_type.upper()}",
-        description=f"**Question {progress + 1}:** {questions[progress]}"
+        description=description
     )
     try:
         await ctx.author.send(embed=apply_disclaimer(embed), view=view)
