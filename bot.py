@@ -1094,6 +1094,29 @@ async def system_query(ctx, target_id: str, *, query: str):
     except Exception as e:
         await status_msg.edit(content=f"⚠️ **Internal Error:** {str(e)}")
 
+@bot.command(name="ping")
+async def ping(ctx):
+    """Connection health check."""
+    latency = round(bot.latency * 1000)
+    db_status = "Connected (/data/psyche.db)" if bot.db else "Disconnected"
+    scan_m = os.getenv('SCAN_MODEL', 'gemini-3.1-flash-lite')
+    if scan_m.lower() == "gemini-3.1-flash-lite":
+        engine_str = "Gemini 3.1 Flash-Lite"
+    else:
+        engine_str = scan_m
+        
+    msg = (f"Pong! 🏓\n"
+           f"Latency: {latency}ms\n"
+           f"Database: {db_status}\n"
+           f"Engine: {engine_str} Active")
+    await ctx.send(msg)
+
+@bot.command(name="purge_my_data")
+async def purge_my_data(ctx):
+    """Privacy wipe."""
+    await purge_user_data(str(ctx.author.id))
+    await ctx.send("✅ All of your data has been purged from the Psyche database.")
+
 @bot.command(name="help")
 async def help_command(ctx):
     embed = discord.Embed(
