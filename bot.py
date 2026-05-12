@@ -26,7 +26,7 @@ from discord import ui
 from aiohttp import web
 from dotenv import load_dotenv
 from google import genai
-from google.genai import types
+from google.genai import types, errors
 
 # =============================================================================
 # 1. CONFIGURATION & ENVIRONMENT
@@ -83,6 +83,9 @@ async def init_db(db: aiosqlite.Connection):
     Initializes the database schema using an existing async connection.
     """
     log.info("Initializing database schema...")
+    
+    # Enable WAL mode for better concurrency (AI reads while scraper writes)
+    await db.execute("PRAGMA journal_mode=WAL;")
     
     # -- 1. Message History Table (with INDEX for performance) --
     await db.execute('''
@@ -696,7 +699,7 @@ async def behavior_scan(ctx):
     )
 
     try:
-        response = await client.aio.models.generate_content(
+        response = await client.models.generate_content(
             model=SCAN_MODEL,
             contents=prompt,
             config=types.GenerateContentConfig(
@@ -716,6 +719,11 @@ async def behavior_scan(ctx):
 
     except discord.Forbidden:
         await status_msg.edit(content="❌ I couldn't DM you. Please enable DMs for this server.")
+    except errors.APIError as e:
+        if "429" in str(e) or "ResourceExhausted" in str(e):
+            await status_msg.edit(content="⚠️ **Rate Limit Hit:** The AI engine is currently overloaded. Please try again in a few moments.")
+        else:
+            await status_msg.edit(content=f"⚠️ **AI Engine API Error:** {str(e)}")
     except Exception as e:
         await status_msg.edit(content=f"⚠️ **AI Engine Error:** {str(e)}")
 
@@ -779,7 +787,7 @@ async def generate_dossier(ctx):
 
     try:
         response = await asyncio.wait_for(
-            client.aio.models.generate_content(
+            client.models.generate_content(
                 model=DOSSIER_MODEL,
                 contents=prompt,
                 config=types.GenerateContentConfig(
@@ -809,6 +817,11 @@ async def generate_dossier(ctx):
 
     except asyncio.TimeoutError:
         await status_msg.edit(content="⚠️ **AI Engine Timeout:** The data volume was too large for the current model allocation. Try again later.")
+    except errors.APIError as e:
+        if "429" in str(e) or "ResourceExhausted" in str(e):
+            await status_msg.edit(content="⚠️ **Rate Limit Hit:** The Deep Synthesis engine is overloaded. Please try again later.")
+        else:
+            await status_msg.edit(content=f"⚠️ **Synthesis API Error:** {str(e)}")
     except Exception as e:
         await status_msg.edit(content=f"⚠️ **Synthesis Error:** {str(e)}")
 
@@ -1032,7 +1045,7 @@ async def system_query(ctx, target_id: str, *, query: str):
 
         # 6. ASYNC AI GENERATION
         response = await asyncio.wait_for(
-            client.aio.models.generate_content(
+            client.models.generate_content(
                 model=DOSSIER_MODEL,
                 contents=admin_prompt,
                 config=types.GenerateContentConfig(
@@ -1059,6 +1072,11 @@ async def system_query(ctx, target_id: str, *, query: str):
 
     except asyncio.TimeoutError:
         await status_msg.edit(content="⚠️ **System Timeout:** The target's data footprint is too massive for a single pass.")
+    except errors.APIError as e:
+        if "429" in str(e) or "ResourceExhausted" in str(e):
+            await status_msg.edit(content="⚠️ **Rate Limit Hit:** Administrative interface quota exceeded.")
+        else:
+            await status_msg.edit(content=f"⚠️ **Internal API Error:** {str(e)}")
     except Exception as e:
         await status_msg.edit(content=f"⚠️ **Internal Error:** {str(e)}")
 
