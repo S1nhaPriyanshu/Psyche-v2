@@ -472,11 +472,11 @@ bot = PsycheBot(command_prefix='!', intents=intents, help_command=None)
 @bot.event
 async def on_message(message: discord.Message):
     """The Message Gate: Privacy-first logging."""
-    if message.author.bot or isinstance(message.channel, discord.DMChannel):
+    if message.author.bot:
         return
 
-    # Phase 2: Log only if opted-in
-    if is_opted_in(message.author):
+    # Phase 2: Log only if opted-in AND in a Server (No DM logging)
+    if not isinstance(message.channel, discord.DMChannel) and is_opted_in(message.author):
         try:
             await bot.db.execute(
                 "INSERT INTO messages (user_id, guild_id, content) VALUES (?, ?, ?)",
