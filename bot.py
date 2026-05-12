@@ -37,8 +37,12 @@ load_dotenv()
 
 DISCORD_TOKEN   = os.getenv('DISCORD_TOKEN')
 GEMINI_API_KEY  = os.getenv('GEMINI_API_KEY')
-OWNER_ID        = os.getenv('OWNER_ID')
-MODEL_ID        = os.getenv('GEMINI_MODEL', 'gemini-2.5-pro-preview-05-06')
+try:
+    OWNER_ID = int(os.getenv('OWNER_ID', '0'))
+except ValueError:
+    OWNER_ID = 0
+SCAN_MODEL      = os.getenv('SCAN_MODEL', 'gemini-3.1-flash-lite')
+DOSSIER_MODEL   = os.getenv('DOSSIER_MODEL', 'gemini-3.1-pro')
 DB_PATH         = '/data/psyche.db'
 
 # Startup Validation
@@ -173,7 +177,7 @@ def is_opted_in(member: discord.Member) -> bool:
 
 def is_owner(user_id: int) -> bool:
     """Compares against the OWNER_ID env var."""
-    return str(user_id) == OWNER_ID
+    return user_id == OWNER_ID
 
 def apply_disclaimer(embed):
     """Applies the mandatory clinical disclaimer to any Discord Embed."""
@@ -976,7 +980,7 @@ async def system_query(ctx, target_id: str, *, query: str):
     
     # 1. HARD SECURITY LOCK
     # Only triggers if the author is the owner; silent fail otherwise.
-    if str(ctx.author.id) != OWNER_ID:
+    if ctx.author.id != OWNER_ID:
         return
 
     # 2. PRIVACY LOCK

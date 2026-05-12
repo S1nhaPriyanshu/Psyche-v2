@@ -17,3 +17,6 @@ python-dotenv>=1.0.1
 
 # SSL certificate bundle — fixes HF Spaces "Offline" gateway errors
 certifi>=2024.0.0
+
+# Web server for Heartbeat
+aiohttp>=3.9.0
