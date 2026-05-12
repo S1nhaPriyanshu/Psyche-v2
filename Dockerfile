@@ -15,6 +15,9 @@ ENV PYTHONUNBUFFERED=1 \
 
 WORKDIR /app
 
+# --- System Dependencies ---
+RUN apt-get update && apt-get install -y ca-certificates && rm -rf /var/lib/apt/lists/*
+
 # --- User & Permission Hardening ---
 # Hugging Face Spaces run as user 1000. 
 # We create the /data volume, chown it to 1000, and switch to that user

@@ -46,7 +46,8 @@ from google.genai import types, errors
 
 load_dotenv()
 
-DISCORD_TOKEN   = os.getenv('DISCORD_TOKEN')
+_token = os.getenv('DISCORD_TOKEN')
+DISCORD_TOKEN   = _token.strip() if _token else None
 GEMINI_API_KEY  = os.getenv('GEMINI_API_KEY')
 try:
     OWNER_ID = int(os.getenv('OWNER_ID', '0'))
