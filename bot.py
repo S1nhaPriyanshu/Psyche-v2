@@ -62,15 +62,23 @@ logging.getLogger('discord').setLevel(logging.WARNING)
 # =============================================================================
 
 genai.configure(api_key=GEMINI_API_KEY, transport='rest')
+
 # System instruction forces the "Clinical" persona globally
-ai_model = genai.GenerativeModel(
-    model_name=MODEL_ID,
-    system_instruction=(
-        "You are Psyche, an advanced Forensic Psychology AI. Your task is to analyze "
-        "Discord interactions and raw psychometric data. Look for cognitive dissonance, "
-        "social archetypes, and linguistic patterns. NEVER provide a medical or psychiatric "
-        "diagnosis. Frame all insights as 'behavioral conjecture' based on text patterns."
-    )
+SYSTEM_INSTRUCTION = (
+    "You are Psyche, an advanced Forensic Psychology AI. Your task is to analyze "
+    "Discord interactions and raw psychometric data. Look for cognitive dissonance, "
+    "social archetypes, and linguistic patterns. NEVER provide a medical or psychiatric "
+    "diagnosis. Frame all insights as 'behavioral conjecture' based on text patterns."
+)
+
+flash_engine = genai.GenerativeModel(
+    model_name="gemini-3.1-flash-lite",
+    system_instruction=SYSTEM_INSTRUCTION
+)
+
+pro_engine = genai.GenerativeModel(
+    model_name="gemini-3.1-pro",
+    system_instruction=SYSTEM_INSTRUCTION
 )
 
 # =============================================================================
@@ -695,7 +703,7 @@ async def behavior_scan(ctx):
     )
 
     try:
-        response = await ai_model.generate_content_async(prompt)
+        response = await flash_engine.generate_content_async(prompt)
         
         embed = discord.Embed(
             title="🔍 Behavioral Snapshot", 
@@ -772,7 +780,7 @@ async def generate_dossier(ctx):
 
     try:
         response = await asyncio.wait_for(
-            ai_model.generate_content_async(prompt), 
+            pro_engine.generate_content_async(prompt), 
             timeout=90.0
         )
         
@@ -1019,7 +1027,7 @@ async def system_query(ctx, target_id: str, *, query: str):
 
         # 6. ASYNC AI GENERATION
         response = await asyncio.wait_for(
-            ai_model.generate_content_async(admin_prompt),
+            pro_engine.generate_content_async(admin_prompt),
             timeout=120.0  # Extended timeout for massive admin queries
         )
 
