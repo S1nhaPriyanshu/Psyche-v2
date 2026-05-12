@@ -177,12 +177,13 @@ async def purge_user_data(user_id: str):
 
 async def scrape_interactions(guild: discord.Guild, target_user_id: str, status_msg):
     """
-    The Deep Interaction Scraper.
+    The Private Server Deep Scraper.
     - Crawls all text channels for the target user's messages.
     - Captures dialogue context (replies / preceding messages).
-    - Uses batch inserts (100 rows) to avoid DB thrashing.
-    - Checkpoints per channel to survive restarts.
-    - Rate-limited: sleeps 0.4s every 100 Discord API messages.
+    - Uses batch inserts (100 rows) to avoid DB thrashing on the HF Bucket.
+    - Checkpoints per channel to survive container restarts.
+    - Rate-limited: sleeps 0.25s every 100 Discord API messages.
+    - UX: Updates status embed every 1,000 mapped interactions.
     """
     total_mapped = 0
     batch = []
@@ -228,7 +229,7 @@ async def scrape_interactions(guild: discord.Guild, target_user_id: str, status_
 
                 # Rate limit: sleep every 100 API messages
                 if api_count % 100 == 0:
-                    await asyncio.sleep(0.4)
+                    await asyncio.sleep(0.25)
 
                 # Only save if the message belongs to target user
                 if str(message.author.id) == target_user_id:
@@ -261,10 +262,12 @@ async def scrape_interactions(guild: discord.Guild, target_user_id: str, status_
                 if len(batch) >= BATCH_SIZE:
                     await flush_batch()
 
-                # UX: Update progress every 500 mapped
-                if total_mapped > 0 and total_mapped % 500 == 0:
+                # UX: Update progress every 1,000 mapped interactions
+                if total_mapped > 0 and total_mapped % 1000 == 0:
                     try:
-                        await status_msg.edit(content=f"🔄 Mapped **{total_mapped:,}** interactions so far...")
+                        await status_msg.edit(
+                            content=f"🔍 Mapped **{total_mapped:,}** interactions... (scanning #{channel.name})"
+                        )
                     except:
                         pass
 
@@ -581,6 +584,37 @@ async def map_interactions(ctx: commands.Context):
     except Exception as e:
         log.error("map_interactions error: %s", e)
         await status_msg.edit(content="⚠️ **Scraper Error**: Something went wrong. Please try again later.")
+
+@bot.command(name='purge_my_data')
+async def purge_my_data(ctx: commands.Context):
+    """
+    Self-service opt-out.
+    Instantly deletes ALL of the requesting user's data from the bot.
+    """
+    user_id = str(ctx.author.id)
+    
+    # Confirmation prompt
+    confirm_msg = await ctx.reply(
+        "⚠️ **This will permanently delete ALL your data** (messages, interactions, quiz results, sessions).\n"
+        "Reply `CONFIRM` within 30 seconds to proceed."
+    )
+    
+    def check(m):
+        return m.author.id == ctx.author.id and m.channel == ctx.channel and m.content.upper().strip() == "CONFIRM"
+    
+    try:
+        await bot.wait_for('message', timeout=30.0, check=check)
+        await purge_user_data(user_id)
+        
+        embed = discord.Embed(
+            title="🗑️ Data Purge Complete",
+            description="All your messages, interaction history, quiz results, and sessions have been permanently deleted.",
+            color=discord.Color.red()
+        )
+        apply_disclaimer(embed)
+        await ctx.reply(embed=embed)
+    except asyncio.TimeoutError:
+        await ctx.reply("❌ Purge cancelled (no confirmation received).")
 
 # =============================================================================
 # 9. CORE ANALYSIS COMMANDS (Gemini Integration)
