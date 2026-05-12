@@ -111,18 +111,7 @@ async def init_db(db: aiosqlite.Connection):
     ''')
     await db.execute("CREATE INDEX IF NOT EXISTS idx_messages_user_guild ON messages(user_id, guild_id)")
 
-    # -- 2. Quiz Results Table (Compound PK) --
-    await db.execute('''
-        CREATE TABLE IF NOT EXISTS quiz_results (
-            user_id      TEXT NOT NULL,
-            guild_id     TEXT NOT NULL,
-            quiz_type    TEXT NOT NULL,
-            result_summary TEXT,
-            raw_answers  TEXT,
-            completed_at DATETIME,
-            PRIMARY KEY (user_id, guild_id, quiz_type)
-        )
-    ''')
+    # -- 2. (Deprecated Compound PK Table removed to prevent schema collision) --
 
     # -- 3. Quiz Sessions Table (PK: user_id) --
     await db.execute('''
@@ -460,8 +449,6 @@ async def on_guild_remove(guild: discord.Guild):
     try:
         gid = str(guild.id)
         await bot.db.execute("DELETE FROM messages WHERE guild_id = ?", (gid,))
-        await bot.db.execute("DELETE FROM quiz_results WHERE guild_id = ?", (gid,))
-        await bot.db.execute("DELETE FROM interaction_history WHERE guild_id = ?", (gid,))
         # Wipe checkpoints for all channels in this guild
         for ch in guild.text_channels:
             await bot.db.execute("DELETE FROM sync_checkpoints WHERE channel_id = ?", (str(ch.id),))
