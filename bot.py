@@ -27,7 +27,6 @@ _orig_TCPConnector = aiohttp.TCPConnector
 def _patched_TCPConnector(*args, **kwargs):
     if 'ssl' not in kwargs or kwargs['ssl'] is None or kwargs['ssl'] is True:
         kwargs['ssl'] = ssl.create_default_context(cafile=certifi.where())
-    kwargs['trust_env'] = True
     return _orig_TCPConnector(*args, **kwargs)
 aiohttp.TCPConnector = _patched_TCPConnector
 
