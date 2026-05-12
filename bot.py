@@ -593,7 +593,7 @@ async def map_interactions(ctx: commands.Context):
 
     # 3. The Iterative Crawl (Optimized for 2 vCPUs)
     # Collect all text channels, voice channels (text-in-voice), and active threads
-    all_channels = ctx.guild.text_channels + ctx.guild.voice_channels + ctx.guild.threads
+    all_channels = ctx.guild.text_channels + ctx.guild.voice_channels + list(ctx.guild.threads)
     
     for channel in all_channels:
         # Skip channels the bot cannot read or that don't have history
