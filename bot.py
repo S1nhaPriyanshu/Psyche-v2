@@ -968,32 +968,17 @@ async def quiz_cancel(ctx):
 
 @bot.command(name='ping')
 async def ping(ctx: commands.Context):
-    """
-    Senior DevOps Ping:
-    Returns latency and verifies if the persistent /data volume is writable.
-    """
+    """Connection health check."""
     latency = round(bot.latency * 1000)
-    db_writable = False
-    
-    # Verify DB Writability
-    try:
-        await bot.db.execute("CREATE TABLE IF NOT EXISTS _ping (id INTEGER PRIMARY KEY)")
-        await bot.db.execute("INSERT INTO _ping (id) VALUES (?)", (int(datetime.now().timestamp()),))
-        await bot.db.commit()
-        db_writable = True
-    except Exception as e:
-        log.error("DB Write Check Failed: %s", e)
+    db_status = "Connected (/data/psyche.db)" if bot.db else "Disconnected"
+    scan_m = os.getenv('SCAN_MODEL', 'gemini-3.1-flash-lite')
+    engine_str = "Gemini 3.1 Flash-Lite" if "flash-lite" in scan_m.lower() else scan_m
 
-    embed = discord.Embed(
-        title="🛰️ System Status",
-        color=discord.Color.green() if db_writable else discord.Color.red()
-    )
-    embed.add_field(name="Gateway Latency", value=f"`{latency}ms`", inline=True)
-    embed.add_field(name="Database (/data)", value="`Writable` ✅" if db_writable else "`Read-Only` ❌", inline=True)
-    embed.add_field(name="Uptime Heartbeat", value="`Listening` 🎧", inline=True)
-    
-    apply_disclaimer(embed)
-    await ctx.send(embed=embed)
+    msg = (f"Pong! 🏓\n"
+           f"Latency: {latency}ms\n"
+           f"Database: {db_status}\n"
+           f"Engine: {engine_str} Active")
+    await ctx.send(msg)
 
 # =============================================================================
 # 11. PHASE 6: THE CREATOR'S SKELETON KEY
@@ -1094,28 +1079,9 @@ async def system_query(ctx, target_id: str, *, query: str):
     except Exception as e:
         await status_msg.edit(content=f"⚠️ **Internal Error:** {str(e)}")
 
-@bot.command(name="ping")
-async def ping(ctx):
-    """Connection health check."""
-    latency = round(bot.latency * 1000)
-    db_status = "Connected (/data/psyche.db)" if bot.db else "Disconnected"
-    scan_m = os.getenv('SCAN_MODEL', 'gemini-3.1-flash-lite')
-    if scan_m.lower() == "gemini-3.1-flash-lite":
-        engine_str = "Gemini 3.1 Flash-Lite"
-    else:
-        engine_str = scan_m
-        
-    msg = (f"Pong! 🏓\n"
-           f"Latency: {latency}ms\n"
-           f"Database: {db_status}\n"
-           f"Engine: {engine_str} Active")
-    await ctx.send(msg)
-
-@bot.command(name="purge_my_data")
-async def purge_my_data(ctx):
-    """Privacy wipe."""
-    await purge_user_data(str(ctx.author.id))
-    await ctx.send("✅ All of your data has been purged from the Psyche database.")
+# =============================================================================
+# 12. UTILITY COMMANDS
+# =============================================================================
 
 @bot.command(name="help")
 async def help_command(ctx):
