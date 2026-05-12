@@ -605,9 +605,16 @@ async def map_interactions(ctx: commands.Context):
     batch_rows = []
 
     # 3. The Iterative Crawl (Optimized for 2 vCPUs)
-    for channel in ctx.guild.text_channels:
-        # Skip channels the bot cannot read
-        if not channel.permissions_for(ctx.guild.me).read_message_history:
+    # Collect all text channels, voice channels (text-in-voice), and active threads
+    all_channels = ctx.guild.text_channels + ctx.guild.voice_channels + ctx.guild.threads
+    
+    for channel in all_channels:
+        # Skip channels the bot cannot read or that don't have history
+        if not hasattr(channel, 'history'):
+            continue
+            
+        perms = channel.permissions_for(ctx.guild.me)
+        if not perms.read_message_history or not perms.read_messages:
             continue
             
         try:
