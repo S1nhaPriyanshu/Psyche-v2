@@ -113,7 +113,7 @@ def init_db():
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
 
-    # -- Message History Table --
+    # -- 1. Message History Table --
     # Stores opted-in user messages for behavioral analysis.
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS messages (
@@ -125,34 +125,34 @@ def init_db():
         )
     ''')
 
-    # -- Quiz Results Table --
-    # Stores completed personality quiz results per user per server.
+    # -- 2. Quiz Results Table --
+    # Stores completed personality quiz summaries (MBTI type, OCEAN scores).
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS quiz_results (
             user_id      TEXT NOT NULL,
             guild_id     TEXT NOT NULL,
-            quiz_type    TEXT NOT NULL,
-            result_summary TEXT,
-            raw_answers  TEXT,
+            quiz_type    TEXT NOT NULL,        -- 'mbti' or 'ocean'
+            result_summary TEXT,               -- AI-generated summary of the result
+            raw_answers  TEXT,                 -- JSON blob of their responses
             completed_at DATETIME,
             PRIMARY KEY (user_id, guild_id, quiz_type)
         )
     ''')
 
-    # -- Active Quiz Sessions Table --
-    # Allows users to pause and resume in-progress quizzes.
+    # -- 3. Active Quiz Sessions Table --
+    # Persistent storage for in-progress quizzes (!quiz resume).
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS quiz_sessions (
             user_id          TEXT PRIMARY KEY,
             quiz_type        TEXT NOT NULL,
             current_question INTEGER DEFAULT 0,
-            answers          TEXT DEFAULT '[]',
+            answers          TEXT DEFAULT '[]', -- JSON array of answers so far
             started_at       DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     ''')
 
-    # -- Cooldowns Table --
-    # Tracks the last time a user ran a rate-limited command.
+    # -- 4. Cooldowns Table --
+    # Tracks the last time a user ran rate-limited commands (!ultimate_analysis).
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS cooldowns (
             user_id   TEXT NOT NULL,
@@ -165,6 +165,57 @@ def init_db():
     conn.commit()
     conn.close()
     log.info("Database initialized at %s", DB_PATH)
+
+# =============================================================================
+# 5. PRIVACY & SECURITY UTILITIES
+# =============================================================================
+
+def has_opt_in(member: discord.Member) -> bool:
+    """
+    The Privacy Gatekeeper.
+    Returns True only if the user has the 'PsycheOptIn' role (case-insensitive).
+    """
+    if not isinstance(member, discord.Member):
+        return False
+    return any(role.name.lower() == "psycheoptin" for role in member.roles)
+
+async def check_cooldown(user_id: str, command: str, cooldown_days: int = 7):
+    """
+    Checks if a user is still on cooldown for a specific command.
+    Returns the datetime they can use it again, or None if they are clear.
+    """
+    # OWNER_ID bypasses all cooldowns for debugging and pro-use
+    if user_id == OWNER_ID:
+        return None
+
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT last_used FROM cooldowns WHERE user_id = ? AND command = ?",
+        (user_id, command)
+    )
+    row = cursor.fetchone()
+    conn.close()
+
+    if row:
+        from datetime import timedelta
+        last_used = datetime.fromisoformat(row[0])
+        next_use = last_used + timedelta(days=cooldown_days)
+        if datetime.now() < next_use:
+            return next_use
+    
+    return None
+
+def set_cooldown(user_id: str, command: str):
+    """Updates the cooldown timestamp for a user/command."""
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(
+        "INSERT OR REPLACE INTO cooldowns (user_id, command, last_used) VALUES (?, ?, ?)",
+        (user_id, command, datetime.now().isoformat())
+    )
+    conn.commit()
+    conn.close()
 
 # =============================================================================
 # 5. HEARTBEAT WEB SERVER (aiohttp — native async, no threading)
@@ -268,22 +319,61 @@ async def ping(ctx: commands.Context):
     await ctx.send(embed=embed)
 
 # =============================================================================
-# 8. EVENTS
+# 8. EVENTS & PRIVACY HANDLERS
 # =============================================================================
 
 @bot.event
 async def on_message(message: discord.Message):
     """
     Global message handler.
-    - Ignores all bot messages.
-    - Processes commands.
-    NOTE: Message logging (for opted-in users) will be added in Phase 2.
+    1. Ignores all bot messages.
+    2. Privacy Gatekeeper: Only logs history for users with 'PsycheOptIn'.
+    3. Processes commands.
     """
     if message.author.bot:
         return
 
-    # IMPORTANT: Must call this to allow commands to be processed.
+    # -- Real-time Behavioral Logging --
+    # We only store messages from users who have explicitly opted in via role.
+    # We skip DMs and system messages.
+    if not isinstance(message.channel, discord.DMChannel) and has_opt_in(message.author):
+        try:
+            conn = sqlite3.connect(DB_PATH)
+            cursor = conn.cursor()
+            cursor.execute(
+                "INSERT INTO messages (user_id, guild_id, content) VALUES (?, ?, ?)",
+                (str(message.author.id), str(message.guild.id), message.content)
+            )
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            log.error("Failed to log message for %s: %s", message.author, e)
+
+    # IMPORTANT: Process commands
     await bot.process_commands(message)
+
+@bot.event
+async def on_guild_remove(guild: discord.Guild):
+    """
+    The Scrub Protocol.
+    Triggered when the bot is kicked from a server or the server is deleted.
+    Immediately wipes ALL data associated with that Guild ID from the database.
+    """
+    log.info("🧹 Scrub Protocol triggered for Guild: %s (ID: %s)", guild.name, guild.id)
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        # Wipe messages
+        cursor.execute("DELETE FROM messages WHERE guild_id = ?", (str(guild.id),))
+        # Wipe quiz results
+        cursor.execute("DELETE FROM quiz_results WHERE guild_id = ?", (str(guild.id),))
+        
+        conn.commit()
+        conn.close()
+        log.info("✅ Scrub Protocol complete. Data for %s purged.", guild.id)
+    except Exception as e:
+        log.error("Scrub Protocol FAILED for Guild %s: %s", guild.id, e)
 
 # =============================================================================
 # 9. ENTRY POINT
