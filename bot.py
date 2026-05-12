@@ -1,11 +1,10 @@
 # =============================================================================
-# TOTAL NETWORK REDIRECTION (HUGGING FACE)
+# UNIVERSAL PROXY FORCE (HUGGING FACE)
 # =============================================================================
 import certifi
 import os
 import ssl
 import aiohttp
-from aiohttp import connector
 
 # 1. Force certifi globally
 os.environ['SSL_CERT_FILE'] = certifi.where()
@@ -19,24 +18,16 @@ def _patched_create_default_context(*args, **kwargs):
     return context
 ssl.create_default_context = _patched_create_default_context
 
-# 3. Aggressive Traffic Redirection
-_orig_connect = connector.TCPConnector.connect
-async def _patched_connect(self, req, traces, timeout):
+# 3. High-Level Request Hijack (Definitive Fix)
+_orig_request = aiohttp.ClientSession._request
+async def _patched_request(self, method, str_or_url, **kwargs):
     hf_proxy = os.getenv('https_proxy') or os.getenv('http_proxy')
     if hf_proxy:
-        # Force the proxy attribute directly on the request object
-        req.proxy = hf_proxy
-        if "discord.com" in req.url.host:
-            log.debug(f"FORCING PROXY TUNNEL -> {req.url.host}")
-    return await _orig_connect(self, req, traces, timeout)
-connector.TCPConnector.connect = _patched_connect
-
-# 4. Force trust_env for all sessions
-_orig_session_init = aiohttp.ClientSession.__init__
-def _patched_session_init(self, *args, **kwargs):
-    kwargs['trust_env'] = True
-    _orig_session_init(self, *args, **kwargs)
-aiohttp.ClientSession.__init__ = _patched_session_init
+        # Force the proxy into every single request keyword argument
+        kwargs['proxy'] = hf_proxy
+        kwargs['trust_env'] = True
+    return await _orig_request(self, method, str_or_url, **kwargs)
+aiohttp.ClientSession._request = _patched_request
 
 # =============================================================================
 # Psyche v2 — Core Bot
