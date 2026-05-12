@@ -6,16 +6,28 @@ os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = certifi.where() # Extra for 2026 stability
 
+# =============================================================================
+# MASTER NETWORK STABILIZATION (DIRECT + CERTIFI)
+# =============================================================================
 import aiohttp
 import ssl
+import certifi
 
-# =============================================================================
-# NETWORK STABILIZATION FOR HUGGING FACE
-# =============================================================================
-# 1. Force aiohttp to trust the environment (proxy + SSL certs)
+# 1. Create a global, immutable SSL context using certifi
+MASTER_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
+
+# 2. Patch TCPConnector to force-inject our SSL context
+_orig_tcp_init = aiohttp.TCPConnector.__init__
+def _patched_tcp_init(self, *args, **kwargs):
+    if 'ssl' not in kwargs or kwargs['ssl'] is True or kwargs['ssl'] is None:
+        kwargs['ssl'] = MASTER_SSL_CONTEXT
+    _orig_tcp_init(self, *args, **kwargs)
+aiohttp.TCPConnector.__init__ = _patched_tcp_init
+
+# 3. Force aiohttp to BYPASS the broken Hugging Face proxy
 _orig_session_init = aiohttp.ClientSession.__init__
 def _patched_session_init(self, *args, **kwargs):
-    kwargs['trust_env'] = True
+    kwargs['trust_env'] = False
     _orig_session_init(self, *args, **kwargs)
 aiohttp.ClientSession.__init__ = _patched_session_init
 
@@ -596,14 +608,13 @@ async def map_interactions(ctx: commands.Context):
     )
     
     total_mapped = 0
+    total_scanned = 0
     batch_rows = []
 
     # 3. The Iterative Crawl (Optimized for 2 vCPUs)
-    # Collect all text channels, voice channels (text-in-voice), and active threads
     all_channels = ctx.guild.text_channels + ctx.guild.voice_channels + list(ctx.guild.threads)
     
     for channel in all_channels:
-        # Skip channels the bot cannot read or that don't have history
         if not hasattr(channel, 'history'):
             continue
             
@@ -612,14 +623,19 @@ async def map_interactions(ctx: commands.Context):
             continue
             
         try:
-            # oldest_first=True builds the timeline chronologically
             async for message in channel.history(limit=None, oldest_first=True):
+                total_scanned += 1
                 
-                # Only save if the user sent it
+                # HEARTBEAT: Update UI every 1000 messages scanned so user knows we aren't stuck
+                if total_scanned % 1000 == 0:
+                    await status_msg.edit(
+                        content=f"🔍 **Mapping in progress...**\n"
+                                f"Messages scanned: `{total_scanned:,}`\n"
+                                f"Interactions found: `{total_mapped:,}`"
+                    )
+
                 if message.author.id == ctx.author.id:
                     reply_id = str(message.reference.message_id) if message.reference else None
-                    
-                    # Add to RAM batch instead of hitting the DB immediately
                     batch_rows.append((
                         str(message.id), 
                         str(message.author.id), 
@@ -629,8 +645,6 @@ async def map_interactions(ctx: commands.Context):
                     ))
                     total_mapped += 1
 
-                    # --- FREE TIER CPU PROTECTION ---
-                    # Only write to the hard drive every 200 messages
                     if len(batch_rows) >= 200:
                         await bot.db.executemany(
                             "INSERT OR IGNORE INTO interaction_history "
@@ -641,13 +655,11 @@ async def map_interactions(ctx: commands.Context):
                         await bot.db.commit()
                         batch_rows.clear()
                         
-                        # Update the Discord UI every 200 messages
                         await status_msg.edit(
                             content=f"🔍 **Mapping in progress...**\n"
-                                    f"Interactions mapped: `{total_mapped:,}`"
+                                    f"Messages scanned: `{total_scanned:,}`\n"
+                                    f"Interactions found: `{total_mapped:,}`"
                         )
-                        
-                        # Yield back to the async loop so the bot doesn't freeze
                         await asyncio.sleep(0.5)
 
         except discord.Forbidden:
