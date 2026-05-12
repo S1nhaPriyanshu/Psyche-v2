@@ -1,15 +1,16 @@
+import certifi
+import os
+
+# Set global environment variables immediately
+os.environ['SSL_CERT_FILE'] = certifi.where()
+os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
+os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = certifi.where() # Extra for 2026 stability
+
 # =============================================================================
 # Psyche v2 — Core Bot
 # A privacy-first, high-reasoning Discord behavioral analysis bot.
 # Powered by Google Gemini 3.1 Pro.
 # =============================================================================
-
-import certifi
-import os
-
-# Mandatory 2026 Networking Patch for Hugging Face
-os.environ['SSL_CERT_FILE'] = certifi.where()
-os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
 import asyncio
 import aiosqlite         # Phase 2: Async SQLite
@@ -18,6 +19,17 @@ import signal
 import json
 import time
 from datetime import datetime
+import aiohttp
+import ssl
+
+# The Connector Refactor: Force all aiohttp clients to use the Certifi context
+_orig_TCPConnector = aiohttp.TCPConnector
+def _patched_TCPConnector(*args, **kwargs):
+    if 'ssl' not in kwargs or kwargs['ssl'] is None or kwargs['ssl'] is True:
+        kwargs['ssl'] = ssl.create_default_context(cafile=certifi.where())
+    kwargs['trust_env'] = True
+    return _orig_TCPConnector(*args, **kwargs)
+aiohttp.TCPConnector = _patched_TCPConnector
 
 # Now safe to import network-reliant libraries
 import discord
