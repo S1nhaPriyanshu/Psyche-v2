@@ -1,37 +1,22 @@
-# =============================================================================
-# Psyche v2 — Core Bot
-# A privacy-first, high-reasoning Discord behavioral analysis bot.
-# Powered by Google Gemini 3.1 Pro.
-# =============================================================================
-#
-# ARCHITECTURE NOTE:
-# The certifi SSL patch MUST be the very first thing that runs — before any
-# network-capable library (discord, google, aiohttp) is imported. This is the
-# fix for Hugging Face's strict network security causing "Offline" gateway errors.
-#
 import os
 import certifi
 
-# --- SSL Certificate Patch (MUST BE BEFORE ALL OTHER IMPORTS) ---
-# Forces all network traffic to use the certifi bundle instead of the
-# system's potentially outdated/missing certificate store.
+# --- 1. SSL CERTIFICATE PATCH (CRITICAL ORDER) ---
+# MUST be executed BEFORE any network-reliant library (discord, aiohttp, google) 
+# is even imported to ensure the environment variables are locked in.
 os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
-# =============================================================================
-# Standard Library
-# =============================================================================
 import asyncio
 import sqlite3
 import logging
+import signal
 from datetime import datetime
 
-# =============================================================================
-# Third-Party Imports (safe to load after SSL patch)
-# =============================================================================
+# Now safe to import network-reliant libraries
 import discord
 from discord.ext import commands
-from aiohttp import web                     # aiohttp ships with discord.py — no extra install
+from aiohttp import web
 from dotenv import load_dotenv
 import google.generativeai as genai
 
@@ -218,32 +203,36 @@ def set_cooldown(user_id: str, command: str):
     conn.close()
 
 # =============================================================================
-# 5. HEARTBEAT WEB SERVER (aiohttp — native async, no threading)
+# 5. HEARTBEAT WEB SERVER (aiohttp — Lifecycle Managed)
 # =============================================================================
 
-async def heartbeat_handler(request):
+class HeartbeatServer:
     """
-    Responds to HTTP GET / with a plain-text status message.
-    Hugging Face checks this endpoint to confirm the Space is 'Running'.
+    Manages the aiohttp lifecycle natively within the bot's event loop.
+    Ensures clean startup and graceful shutdown without task leaks.
     """
-    return web.Response(text="Psyche is Awake")
+    def __init__(self, port=7860):
+        self.port = port
+        self.runner = None
 
-async def start_heartbeat():
-    """
-    Starts the aiohttp web server on 0.0.0.0:7860.
-    Runs natively in the event loop — no threads, no blocking.
-    Called from PsycheBot.setup_hook() so it starts before the bot connects.
-    """
-    web_app = web.Application()
-    web_app.router.add_get('/', heartbeat_handler)
+    async def start(self):
+        app = web.Application()
+        app.router.add_get('/', self.handle_ping)
+        
+        self.runner = web.AppRunner(app)
+        await self.runner.setup()
+        
+        site = web.TCPSite(self.runner, '0.0.0.0', self.port)
+        await site.start()
+        log.info("Heartbeat server online at port %s", self.port)
 
-    runner = web.AppRunner(web_app)
-    await runner.setup()
+    async def stop(self):
+        if self.runner:
+            await self.runner.cleanup()
+            log.info("Heartbeat server shut down gracefully.")
 
-    site = web.TCPSite(runner, host='0.0.0.0', port=7860)
-    await site.start()
-
-    log.info("Heartbeat server listening on http://0.0.0.0:7860")
+    async def handle_ping(self, request):
+        return web.Response(text="Psyche is Awake", content_type="text/plain")
 
 # =============================================================================
 # 6. BOT SETUP
@@ -258,15 +247,24 @@ intents.members = True
 
 class PsycheBot(commands.Bot):
     """
-    Custom Bot subclass. Using setup_hook() to initialize async resources
-    (heartbeat server, DB) before the bot's connection is established.
+    Custom Bot subclass. Manages database initialization, web heartbeat,
+    and graceful shutdown sequences.
     """
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.web_server = HeartbeatServer(port=7860)
 
     async def setup_hook(self):
-        """Called by discord.py after login but before connecting to the Gateway."""
-        # Start the heartbeat server so HF Spaces sees port 7860 immediately
-        await start_heartbeat()
-        log.info("setup_hook complete.")
+        """Pre-Gateway initialization."""
+        # Start web server first to satisfy HF Spaces port check
+        await self.web_server.start()
+        log.info("setup_hook: Heartbeat server initialized.")
+
+    async def close(self):
+        """Cleanup sequence on bot shutdown."""
+        log.info("Shutdown signal received. Cleaning up...")
+        await self.web_server.stop()
+        await super().close()
 
     async def on_ready(self):
         """Fired once the bot is fully connected and ready to receive events."""
@@ -301,22 +299,155 @@ bot = PsycheBot(
 
 @bot.command(name='ping')
 async def ping(ctx: commands.Context):
-    """
-    System status check. Returns latency in milliseconds.
-    Available to all users — no role gate required.
-    """
+    """System status check."""
     latency_ms = round(bot.latency * 1000)
+    
+    # Get some DB stats
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM messages")
+    msg_count = cursor.fetchone()[0]
+    cursor.execute("SELECT COUNT(DISTINCT user_id) FROM messages")
+    user_count = cursor.fetchone()[0]
+    conn.close()
 
-    embed = discord.Embed(
-        title="🏓 Pong!",
-        color=discord.Color.from_str("#9B59B6")  # Psyche purple
-    )
+    embed = discord.Embed(title="🏓 Pong!", color=discord.Color.from_str("#9B59B6"))
     embed.add_field(name="Latency", value=f"`{latency_ms}ms`", inline=True)
     embed.add_field(name="Engine", value=f"`{MODEL_ID}`", inline=True)
-    embed.add_field(name="Status", value="`Online`", inline=True)
+    embed.add_field(name="Archived Messages", value=f"`{msg_count:,}`", inline=True)
+    embed.add_field(name="Opted-in Users", value=f"`{user_count}`", inline=True)
     embed.set_footer(text="Psyche v2 · Privacy-First Architecture")
-
     await ctx.send(embed=embed)
+
+@bot.command(name='analyze_me')
+async def analyze_me(ctx: commands.Context):
+    """
+    Behavioral Profiling.
+    Scans the user's last 500 messages for linguistic markers and cognitive style.
+    """
+    # 1. Privacy Check
+    if not has_opt_in(ctx.author):
+        return await ctx.reply("❌ **Access Denied**: You must have the `PsycheOptIn` role to use this.")
+
+    # 2. Cooldown Check (10 minutes)
+    # Note: OWNER_ID and Admins bypass this.
+    is_admin = ctx.author.guild_permissions.administrator or str(ctx.author.id) == OWNER_ID
+    if not is_admin:
+        cd = await check_cooldown(str(ctx.author.id), "analyze_me", cooldown_days=0) # 0 days = check hours/mins
+        # For simplicity in this build, we'll use a 10 min hardcode if check_cooldown returns a value
+        # But for Phase 3, let's just implement a quick 10-min logic:
+        conn = sqlite3.connect(DB_PATH); cursor = conn.cursor()
+        cursor.execute("SELECT last_used FROM cooldowns WHERE user_id = ? AND command = 'analyze_me'", (str(ctx.author.id),))
+        row = cursor.fetchone(); conn.close()
+        if row:
+            last = datetime.fromisoformat(row[0])
+            from datetime import timedelta
+            if datetime.now() < last + timedelta(minutes=10):
+                rem = (last + timedelta(minutes=10)) - datetime.now()
+                return await ctx.reply(f"⏳ **Cooldown**: Please wait {round(rem.total_seconds()/60)} more minutes.")
+
+    # 3. Data Readiness Check
+    conn = sqlite3.connect(DB_PATH)
+    cursor = conn.cursor()
+    cursor.execute(
+        "SELECT content FROM messages WHERE user_id = ? AND guild_id = ? ORDER BY timestamp DESC LIMIT 500",
+        (str(ctx.author.id), str(ctx.guild.id))
+    )
+    rows = cursor.fetchall()
+    conn.close()
+
+    if len(rows) < 50:
+        return await ctx.reply(f"❌ **Insufficient Data**: I need at least 50 messages to build a baseline (you have {len(rows)}). Chat some more!")
+
+    status_msg = await ctx.send("🧐 **Scanning linguistic markers and emotional patterns...**")
+
+    # 4. AI Synthesis
+    chat_log = "\n".join([r[0] for r in rows])
+    prompt = (
+        f"Perform a deep behavioral analysis on the following chat history. "
+        f"Identify linguistic markers, emotional baseline, cognitive style, and "
+        f"social dynamics. Be insightful, slightly provocative, but professional. "
+        f"User History:\n{chat_log}"
+    )
+
+    try:
+        response = await asyncio.to_thread(model.generate_content, prompt)
+        
+        # 5. DM Delivery
+        report = f"📊 **Behavioral Profile: {ctx.author.display_name}**\n\n{response.text}{DISCLAIMER}"
+        
+        try:
+            # Handle long responses (split by 2000 chars)
+            for chunk in [report[i:i+1900] for i in range(0, len(report), 1900)]:
+                await ctx.author.send(chunk)
+            
+            await status_msg.edit(content="✅ **Analysis complete.** Check your DMs for the full behavioral dossier.")
+            set_cooldown(str(ctx.author.id), "analyze_me")
+        except discord.Forbidden:
+            await status_msg.edit(content="❌ **Delivery Failed**: I can't DM you! Please enable 'Allow direct messages from server members' in your privacy settings.")
+    
+    except Exception as e:
+        log.error("Gemini Error in analyze_me: %s", e)
+        await status_msg.edit(content="⚠️ **System Error**: The AI is currently overwhelmed. Please try again in a few minutes.")
+
+@bot.command(name='ultimate_analysis')
+async def ultimate_analysis(ctx: commands.Context):
+    """
+    The Milestone Report.
+    Synthesizes chat history + personality quiz results.
+    """
+    if not has_opt_in(ctx.author):
+        return await ctx.reply("❌ **Access Denied**: You must have the `PsycheOptIn` role.")
+
+    # 1. Cooldown Check (7 Days)
+    cd = await check_cooldown(str(ctx.author.id), "ultimate_analysis", cooldown_days=7)
+    if cd:
+        return await ctx.reply(f"⏳ **Cooldown**: This is a major report. You can run it again on `{cd.strftime('%Y-%m-%d')}`.")
+
+    # 2. Data Check (Messages + Quiz)
+    conn = sqlite3.connect(DB_PATH); cursor = conn.cursor()
+    cursor.execute("SELECT content FROM messages WHERE user_id = ? LIMIT 500", (str(ctx.author.id),))
+    msgs = cursor.fetchall()
+    cursor.execute("SELECT quiz_type, result_summary FROM quiz_results WHERE user_id = ?", (str(ctx.author.id),))
+    quizzes = cursor.fetchall()
+    conn.close()
+
+    if len(msgs) < 50 or not quizzes:
+        return await ctx.reply("❌ **Missing Requirements**: You need 50+ messages AND at least one completed personality quiz (!take_test).")
+
+    status_msg = await ctx.send("🧪 **Synthesizing multi-modal data points into an Ultimate Dossier...**")
+
+    # 3. AI Synthesis
+    chat_log = "\n".join([m[0] for m in msgs])
+    quiz_context = "\n".join([f"[{q[0].upper()}] {q[1]}" for q in quizzes])
+    
+    prompt = (
+        f"You are Psyche, a master behavioral psychologist. Synthesize this user's data into a "
+        f"definitive psychological dossier (1000+ words). Combine their chat history linguistic "
+        f"markers with their personality quiz results. Provide deep insights into their "
+        f"subconscious drivers, social mask, and growth potential.\n\n"
+        f"Chat Baseline:\n{chat_log}\n\nQuiz Context:\n{quiz_context}"
+    )
+
+    try:
+        response = await asyncio.to_thread(model.generate_content, prompt)
+        
+        # 4. DM Delivery
+        header = f"🏆 **ULTIMATE PSYCHOLOGICAL DOSSIER: {ctx.author.display_name}**\n"
+        full_text = f"{header}\n{response.text}{DISCLAIMER}"
+        
+        try:
+            for chunk in [full_text[i:i+1900] for i in range(0, len(full_text), 1900)]:
+                await ctx.author.send(chunk)
+            
+            await status_msg.edit(content="✅ **Synthesis Complete.** Your Master Dossier has been delivered to your DMs.")
+            set_cooldown(str(ctx.author.id), "ultimate_analysis")
+        except discord.Forbidden:
+            await status_msg.edit(content="❌ **Delivery Failed**: I can't DM you! Please check your privacy settings.")
+            
+    except Exception as e:
+        log.error("Gemini Error in ultimate: %s", e)
+        await status_msg.edit(content="⚠️ **Synthesis Failed**: The engine hit a reasoning block. Please try again later.")
 
 # =============================================================================
 # 8. EVENTS & PRIVACY HANDLERS
