@@ -408,7 +408,8 @@ bot = PsycheBot(
     command_prefix=commands.when_mentioned_or('!'), 
     case_insensitive=True, 
     intents=intents, 
-    help_command=None
+    help_command=None,
+    proxy=os.getenv('https_proxy') or os.getenv('HTTP_PROXY')
 )
 
 @bot.event
@@ -1091,8 +1092,4 @@ async def help_command(ctx):
     await ctx.send(embed=apply_disclaimer(embed))
 
 if __name__ == '__main__':
-    # Get the proxy from the environment for HF stability
-    proxy_url = os.getenv('https_proxy') or os.getenv('HTTP_PROXY')
-    
-    # Run with the official proxy parameter
-    bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None, proxy=proxy_url)
+    bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
