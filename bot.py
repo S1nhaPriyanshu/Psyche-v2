@@ -132,7 +132,71 @@ def is_owner(user_id: int) -> bool:
     return str(user_id) == OWNER_ID
 
 # =============================================================================
-# 5. HEARTBEAT WEB SERVER
+# 5. PHASE 3: ANALYSIS HELPERS & COOLDOWNS
+# =============================================================================
+
+async def is_on_cooldown(user_id: str, command: str, seconds: int):
+    """
+    Checks the persistent database for a cooldown.
+    Returns (True, time_remaining_seconds) or False.
+    """
+    # Owner bypasses all cooldowns
+    if OWNER_ID and str(user_id) == OWNER_ID:
+        return False
+
+    async with bot.db.execute(
+        "SELECT last_used FROM cooldowns WHERE user_id = ? AND command = ?",
+        (user_id, command)
+    ) as cursor:
+        row = await cursor.fetchone()
+        if row:
+            last_used = datetime.fromisoformat(row[0])
+            elapsed = (datetime.now() - last_used).total_seconds()
+            if elapsed < seconds:
+                return True, int(seconds - elapsed)
+    return False
+
+async def set_cooldown(user_id: str, command: str):
+    """Updates the persistent cooldown timestamp."""
+    await bot.db.execute(
+        "INSERT OR REPLACE INTO cooldowns (user_id, command, last_used) VALUES (?, ?, ?)",
+        (user_id, command, datetime.now().isoformat())
+    )
+    await bot.db.commit()
+
+def format_transcript(rows):
+    """
+    Formats DB rows into a clean dialogue transcript for Gemini.
+    Input rows: (content, timestamp)
+    Output: "[HH:MM] User: 'Content'"
+    """
+    transcript = []
+    for row in rows:
+        try:
+            ts = datetime.fromisoformat(row[1]).strftime("%H:%M")
+        except:
+            ts = "??:??"
+        transcript.append(f"[{ts}] User: \"{row[0]}\"")
+    return "\n".join(transcript)
+
+async def deliver_dossier(ctx, title, content):
+    """
+    Helper to send a report to DMs with a fail-safe for closed DMs.
+    """
+    full_report = f"{title}\n\n{content}{DISCLAIMER}"
+    
+    # Split content if it exceeds 2000 chars (Discord limit)
+    chunks = [full_report[i:i+1900] for i in range(0, len(full_report), 1900)]
+    
+    try:
+        for chunk in chunks:
+            await ctx.author.send(chunk)
+        return True
+    except discord.Forbidden:
+        return False
+
+# =============================================================================
+# 6. HEARTBEAT WEB SERVER
 # =============================================================================
 
 class HeartbeatServer:
@@ -229,7 +293,114 @@ async def on_guild_remove(guild: discord.Guild):
         log.error("Scrub Protocol Error: %s", e)
 
 # =============================================================================
-# 8. SYSTEM COMMANDS
+# 8. CORE ANALYSIS COMMANDS (Gemini Integration)
+# =============================================================================
+
+@bot.command(name='analyze_me')
+async def analyze_me(ctx: commands.Context):
+    """Behavioral profile based on last 500 messages."""
+    if not is_opted_in(ctx.author):
+        return await ctx.reply("❌ **Privacy Error**: You must have the `PsycheOptIn` role to use this.")
+
+    # 1. Persistent Cooldown Check (10 Minutes)
+    cooldown = await is_on_cooldown(str(ctx.author.id), "analyze_me", 600)
+    if cooldown:
+        return await ctx.reply(f"⏳ **Cooldown**: Please wait {round(cooldown[1]/60)} minutes.")
+
+    # 2. Fetch Data
+    async with bot.db.execute(
+        "SELECT content, timestamp FROM messages WHERE user_id = ? AND guild_id = ? ORDER BY timestamp DESC LIMIT 500",
+        (str(ctx.author.id), str(ctx.guild.id))
+    ) as cursor:
+        rows = await cursor.fetchall()
+
+    if len(rows) < 50:
+        return await ctx.reply(f"❌ **Data Gap**: I need 50+ messages for a valid profile (you have {len(rows)}).")
+
+    # 3. Process with Gemini
+    async with ctx.typing():
+        transcript = format_transcript(rows)
+        prompt = (
+            "Act as a world-class behavioral psychologist. Analyze the following chat transcript "
+            "for linguistic style, emotional tone, and social dynamics. Provide a concise, "
+            "insightful profile (approx 300 words).\n\n"
+            f"Transcript:\n{transcript}"
+        )
+        
+        try:
+            # Run blocking AI call in a thread
+            response = await asyncio.to_thread(model.generate_content, prompt)
+            
+            # 4. Delivery
+            success = await deliver_dossier(ctx, f"📊 **Behavioral Profile: {ctx.author.name}**", response.text)
+            
+            if success:
+                await ctx.reply("✅ **Analysis complete.** Check your DMs for the dossier.")
+                await set_cooldown(str(ctx.author.id), "analyze_me")
+            else:
+                await ctx.reply("❌ **Delivery Error**: I can't DM you! Please open your privacy settings.")
+        
+        except Exception as e:
+            log.error("AI Error: %s", e)
+            await ctx.reply("⚠️ **Engine Overload**: Gemini is struggling to process this. Try again in a moment.")
+
+@bot.command(name='ultimate_analysis')
+async def ultimate_analysis(ctx: commands.Context):
+    """The Milestone Report: Chat history + Quiz synthesis."""
+    if not is_opted_in(ctx.author):
+        return await ctx.reply("❌ **Privacy Error**: You must have the `PsycheOptIn` role.")
+
+    # 1. Persistent Cooldown Check (7 Days)
+    cooldown = await is_on_cooldown(str(ctx.author.id), "ultimate_analysis", 604800)
+    if cooldown:
+        return await ctx.reply(f"⏳ **Cooldown**: Major Dossiers take time. Next available: {round(cooldown[1]/3600)} hours.")
+
+    # 2. Fetch Data (1,000 messages + Quizzes)
+    async with bot.db.execute(
+        "SELECT content, timestamp FROM messages WHERE user_id = ? ORDER BY timestamp DESC LIMIT 1000",
+        (str(ctx.author.id),)
+    ) as cursor:
+        rows = await cursor.fetchall()
+        
+    async with bot.db.execute(
+        "SELECT quiz_type, result_summary FROM quiz_results WHERE user_id = ?",
+        (str(ctx.author.id),)
+    ) as cursor:
+        quizzes = await cursor.fetchall()
+
+    if len(rows) < 50 or not quizzes:
+        return await ctx.reply("❌ **Missing Inputs**: You need 50+ messages AND at least one completed quiz (!take_test).")
+
+    # 3. Process with Gemini
+    async with ctx.typing():
+        transcript = format_transcript(rows)
+        quiz_data = "\n".join([f"[{q[0].upper()}] {q[1]}" for q in quizzes])
+        
+        prompt = (
+            "Act as a Forensic Psychologist. Synthesize this user's chat history and personality test results "
+            "into a Master Profile. Explore contradictions between their self-reported quiz data and their "
+            "actual behavior in chat. Aim for a deep, 1000-word synthesis.\n\n"
+            f"Chat History:\n{transcript}\n\nQuiz Data:\n{quiz_data}"
+        )
+        
+        try:
+            response = await asyncio.to_thread(model.generate_content, prompt)
+            
+            # 4. Delivery
+            success = await deliver_dossier(ctx, f"🏆 **ULTIMATE PSYCHOLOGICAL DOSSIER: {ctx.author.name}**", response.text)
+            
+            if success:
+                await ctx.reply("✅ **Synthesis complete.** Your Master Dossier has arrived in your DMs.")
+                await set_cooldown(str(ctx.author.id), "ultimate_analysis")
+            else:
+                await ctx.reply("❌ **Delivery Error**: I can't DM you! Please check your privacy settings.")
+
+        except Exception as e:
+            log.error("AI Error: %s", e)
+            await ctx.reply("⚠️ **Synthesis Failed**: The AI encountered a complex conflict. Try again later.")
+
+# =============================================================================
+# 9. SYSTEM COMMANDS
 # =============================================================================
 
 @bot.command(name='ping')
