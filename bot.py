@@ -118,7 +118,29 @@ async def init_db(db: aiosqlite.Connection):
             PRIMARY KEY (user_id, command)
         )
     ''')
-    
+
+    # -- 5. Interaction History Table (Deep Scraper) --
+    await db.execute('''
+        CREATE TABLE IF NOT EXISTS interaction_history (
+            message_id  TEXT PRIMARY KEY,
+            user_id     TEXT NOT NULL,
+            guild_id    TEXT NOT NULL,
+            content     TEXT NOT NULL,
+            is_context  INTEGER DEFAULT 0,
+            reply_to_id TEXT,
+            timestamp   DATETIME
+        )
+    ''')
+    await db.execute("CREATE INDEX IF NOT EXISTS idx_interactions_user ON interaction_history(user_id, guild_id)")
+
+    # -- 6. Sync Checkpoints (Scraper Resume) --
+    await db.execute('''
+        CREATE TABLE IF NOT EXISTS sync_checkpoints (
+            channel_id      TEXT PRIMARY KEY,
+            last_message_id TEXT NOT NULL
+        )
+    ''')
+
     await db.commit()
     log.info("Database schema ready.")
 
@@ -130,6 +152,139 @@ def is_opted_in(member: discord.Member) -> bool:
 def is_owner(user_id: int) -> bool:
     """Compares against the OWNER_ID env var."""
     return str(user_id) == OWNER_ID
+
+def apply_disclaimer(embed: discord.Embed):
+    """
+    Applies the mandatory clinical disclaimer to any Discord Embed.
+    """
+    embed.set_footer(text="⚠️ Disclaimer: AI-generated behavioral conjecture. Not a clinical assessment.")
+    return embed
+
+async def purge_user_data(user_id: str):
+    """
+    The Scrub Protocol (User-Level).
+    Triggered when a user removes the PsycheOptIn role.
+    Wipes ALL their data from the interaction_history table.
+    """
+    log.info("🧹 User Scrub: Purging data for user %s", user_id)
+    await bot.db.execute("DELETE FROM interaction_history WHERE user_id = ? AND is_context = 0", (user_id,))
+    await bot.db.execute("DELETE FROM messages WHERE user_id = ?", (user_id,))
+    await bot.db.execute("DELETE FROM quiz_results WHERE user_id = ?", (user_id,))
+    await bot.db.execute("DELETE FROM quiz_sessions WHERE user_id = ?", (user_id,))
+    await bot.db.execute("DELETE FROM cooldowns WHERE user_id = ?", (user_id,))
+    await bot.db.commit()
+    log.info("✅ User Scrub complete for %s", user_id)
+
+async def scrape_interactions(guild: discord.Guild, target_user_id: str, status_msg):
+    """
+    The Deep Interaction Scraper.
+    - Crawls all text channels for the target user's messages.
+    - Captures dialogue context (replies / preceding messages).
+    - Uses batch inserts (100 rows) to avoid DB thrashing.
+    - Checkpoints per channel to survive restarts.
+    - Rate-limited: sleeps 0.4s every 100 Discord API messages.
+    """
+    total_mapped = 0
+    batch = []
+    BATCH_SIZE = 100
+
+    async def flush_batch():
+        nonlocal batch
+        if not batch:
+            return
+        await bot.db.executemany(
+            "INSERT OR IGNORE INTO interaction_history (message_id, user_id, guild_id, content, is_context, reply_to_id, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            batch
+        )
+        await bot.db.commit()
+        batch = []
+
+    for channel in guild.text_channels:
+        # Check bot permissions
+        perms = channel.permissions_for(guild.me)
+        if not perms.read_messages or not perms.read_message_history:
+            continue
+
+        # Load checkpoint for this channel
+        after_msg = None
+        async with bot.db.execute(
+            "SELECT last_message_id FROM sync_checkpoints WHERE channel_id = ?",
+            (str(channel.id),)
+        ) as cursor:
+            row = await cursor.fetchone()
+            if row:
+                try:
+                    after_msg = discord.Object(id=int(row[0]))
+                except:
+                    pass
+
+        api_count = 0
+        last_id = None
+
+        try:
+            async for message in channel.history(limit=None, oldest_first=True, after=after_msg):
+                api_count += 1
+                last_id = str(message.id)
+
+                # Rate limit: sleep every 100 API messages
+                if api_count % 100 == 0:
+                    await asyncio.sleep(0.4)
+
+                # Only save if the message belongs to target user
+                if str(message.author.id) == target_user_id:
+                    # Save the user's own message
+                    content = message.content[:500] if message.content else ""
+                    reply_to = str(message.reference.message_id) if message.reference else None
+
+                    batch.append((
+                        str(message.id), target_user_id, str(guild.id),
+                        content, 0, reply_to, message.created_at.isoformat()
+                    ))
+
+                    # Capture context: the message they replied to
+                    if message.reference and message.reference.message_id:
+                        try:
+                            ref_msg = await channel.fetch_message(message.reference.message_id)
+                            # Only save public context from the same guild
+                            if ref_msg and ref_msg.guild and ref_msg.guild.id == guild.id:
+                                ctx_content = ref_msg.content[:500] if ref_msg.content else ""
+                                batch.append((
+                                    str(ref_msg.id), str(ref_msg.author.id), str(guild.id),
+                                    ctx_content, 1, None, ref_msg.created_at.isoformat()
+                                ))
+                        except (discord.NotFound, discord.Forbidden):
+                            pass
+
+                    total_mapped += 1
+
+                # Batch flush
+                if len(batch) >= BATCH_SIZE:
+                    await flush_batch()
+
+                # UX: Update progress every 500 mapped
+                if total_mapped > 0 and total_mapped % 500 == 0:
+                    try:
+                        await status_msg.edit(content=f"🔄 Mapped **{total_mapped:,}** interactions so far...")
+                    except:
+                        pass
+
+        except discord.Forbidden:
+            continue
+        except Exception as e:
+            log.error("Scraper error in #%s: %s", channel.name, e)
+            continue
+
+        # Save checkpoint for this channel
+        if last_id:
+            await bot.db.execute(
+                "INSERT OR REPLACE INTO sync_checkpoints (channel_id, last_message_id) VALUES (?, ?)",
+                (str(channel.id), last_id)
+            )
+            await bot.db.commit()
+
+    # Final flush
+    await flush_batch()
+    return total_mapped
 
 # =============================================================================
 # 5. PHASE 4: QUIZ DATA & ENGINE
@@ -376,18 +531,59 @@ async def on_message(message: discord.Message):
 
 @bot.event
 async def on_guild_remove(guild: discord.Guild):
-    """The Scrub Protocol: Auto-purge on server leave."""
-    log.info("🧹 Scrub Protocol: Purging data for guild %s (%s)", guild.name, guild.id)
+    """The Scrub Protocol (Guild-Level): Wipes ALL data for this server."""
+    log.info("🧹 Guild Scrub: Purging all data for %s (%s)", guild.name, guild.id)
     try:
-        await bot.db.execute("DELETE FROM messages WHERE guild_id = ?", (str(guild.id),))
-        await bot.db.execute("DELETE FROM quiz_results WHERE guild_id = ?", (str(guild.id),))
+        gid = str(guild.id)
+        await bot.db.execute("DELETE FROM messages WHERE guild_id = ?", (gid,))
+        await bot.db.execute("DELETE FROM quiz_results WHERE guild_id = ?", (gid,))
+        await bot.db.execute("DELETE FROM interaction_history WHERE guild_id = ?", (gid,))
+        # Wipe checkpoints for all channels in this guild
+        for ch in guild.text_channels:
+            await bot.db.execute("DELETE FROM sync_checkpoints WHERE channel_id = ?", (str(ch.id),))
         await bot.db.commit()
-        log.info("✅ Scrub Complete.")
+        log.info("✅ Guild Scrub complete for %s.", guild.id)
     except Exception as e:
-        log.error("Scrub Protocol Error: %s", e)
+        log.error("Guild Scrub Error: %s", e)
+
+@bot.event
+async def on_member_update(before: discord.Member, after: discord.Member):
+    """Scrub Protocol (Role Removal): If PsycheOptIn is removed, purge user data."""
+    had_role = any(r.name.lower() == "psycheoptin" for r in before.roles)
+    has_role = any(r.name.lower() == "psycheoptin" for r in after.roles)
+    if had_role and not has_role:
+        log.info("🚨 PsycheOptIn removed from %s. Triggering user purge.", after.id)
+        await purge_user_data(str(after.id))
 
 # =============================================================================
-# 8. CORE ANALYSIS COMMANDS (Gemini Integration)
+# 8. INTERACTION SCRAPER COMMAND
+# =============================================================================
+
+@bot.command(name='map_interactions')
+async def map_interactions(ctx: commands.Context):
+    """Deep-scrapes the server for all of the user's dialogue history."""
+    if not is_opted_in(ctx.author):
+        return await ctx.reply("❌ **Privacy Gate**: You need the `PsycheOptIn` role.")
+
+    status_msg = await ctx.send("🔄 **Scraping in progress...** This may take a while for large servers.")
+
+    try:
+        total = await scrape_interactions(ctx.guild, str(ctx.author.id), status_msg)
+
+        embed = discord.Embed(
+            title="✅ Interaction Map Complete",
+            description=f"Mapped **{total:,}** dialogue interactions across this server.",
+            color=discord.Color.green()
+        )
+        embed.add_field(name="Next Step", value="Use `!analyze_me` or `!ultimate_analysis` for insights.", inline=False)
+        apply_disclaimer(embed)
+        await status_msg.edit(content=None, embed=embed)
+    except Exception as e:
+        log.error("map_interactions error: %s", e)
+        await status_msg.edit(content="⚠️ **Scraper Error**: Something went wrong. Please try again later.")
+
+# =============================================================================
+# 9. CORE ANALYSIS COMMANDS (Gemini Integration)
 # =============================================================================
 
 @bot.command(name='analyze_me')
@@ -621,9 +817,33 @@ async def quiz_cancel(ctx):
 # =============================================================================
 
 @bot.command(name='ping')
-async def ping(ctx):
-    """System heartbeat check."""
-    await ctx.send(f"🏓 Pong! Latency: {round(bot.latency * 1000)}ms")
+async def ping(ctx: commands.Context):
+    """
+    Senior DevOps Ping:
+    Returns latency and verifies if the persistent /data volume is writable.
+    """
+    latency = round(bot.latency * 1000)
+    db_writable = False
+    
+    # Verify DB Writability
+    try:
+        await bot.db.execute("CREATE TABLE IF NOT EXISTS _ping (id INTEGER PRIMARY KEY)")
+        await bot.db.execute("INSERT INTO _ping (id) VALUES (?)", (int(datetime.now().timestamp()),))
+        await bot.db.commit()
+        db_writable = True
+    except Exception as e:
+        log.error("DB Write Check Failed: %s", e)
+
+    embed = discord.Embed(
+        title="🛰️ System Status",
+        color=discord.Color.green() if db_writable else discord.Color.red()
+    )
+    embed.add_field(name="Gateway Latency", value=f"`{latency}ms`", inline=True)
+    embed.add_field(name="Database (/data)", value="`Writable` ✅" if db_writable else "`Read-Only` ❌", inline=True)
+    embed.add_field(name="Uptime Heartbeat", value="`Listening` 🎧", inline=True)
+    
+    apply_disclaimer(embed)
+    await ctx.send(embed=embed)
 
 if __name__ == '__main__':
     bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
