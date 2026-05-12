@@ -408,8 +408,7 @@ bot = PsycheBot(
     command_prefix=commands.when_mentioned_or('!'), 
     case_insensitive=True, 
     intents=intents, 
-    help_command=None,
-    proxy=os.getenv('https_proxy') or os.getenv('HTTP_PROXY')
+    help_command=None
 )
 
 @bot.event
@@ -767,13 +766,34 @@ async def generate_dossier(ctx):
     if len(chat_rows) < 100:
         return await status_msg.edit(content="⚠️ **Insufficient Data:** Run `!map_interactions` to build your social web first.")
 
-    # 3. Fetch Raw Quiz Data
+    # 3. Fetch Raw Quiz Data and Map to Actual Questions
     async with bot.db.execute("SELECT quiz_type, raw_answers FROM quiz_results WHERE user_id = ?", (user_id,)) as cursor:
         quiz_rows = await cursor.fetchall()
 
+    try:
+        with open(QUESTIONS_JSON, 'r') as f:
+            all_questions_data = json.load(f)
+    except Exception:
+        all_questions_data = {}
+
     quiz_context = ""
     for q_type, raw_json in quiz_rows:
-        quiz_context += f"- {q_type.upper()} Raw Likert Scale Array: {raw_json}\n"
+        try:
+            answers = json.loads(raw_json)
+            quiz_data = all_questions_data.get(q_type, {})
+            questions = quiz_data.get("questions", [])
+            
+            quiz_context += f"--- {q_type.upper()} ASSESSMENT ---\n"
+            if questions:
+                for idx, ans in enumerate(answers):
+                    if idx < len(questions):
+                        q_text = questions[idx].get("q", "Unknown Question")
+                        quiz_context += f"Q: {q_text} | Answered: {ans}\n"
+            else:
+                quiz_context += f"Raw Likert Scale Array: {answers}\n"
+            quiz_context += "\n"
+        except Exception:
+            continue
 
     if not quiz_context:
         quiz_context = "No psychometric assessments completed. Rely strictly on behavioral data."
@@ -781,13 +801,18 @@ async def generate_dossier(ctx):
     # 4. The Master Prompt
     transcript = format_transcript(chat_rows)
     prompt = (
-        "Generate a 'Psychological Synthesis Dossier' for this user.\n"
+        "Generate a 'Deep Psychological Synthesis Dossier' for this user.\n"
+        "You are an elite behavioral profiler. You have access to their raw psychometric test results and their entire interaction history in a server.\n\n"
         "GOALS:\n"
-        "1. Reconcile their self-reported psychometric data (Likert arrays) against their actual behavioral text.\n"
-        "2. Identify 'Cognitive Dissonance'—where do they act differently than they test?\n"
-        "3. Define their overarching server archetype.\n"
-        "Format with clear Markdown headers and bold text. Make it profound, clinical, and detailed (1000+ words).\n\n"
-        f"=== RAW PSYCHOMETRIC DATA ===\n{quiz_context}\n\n"
+        "1. Identify 'Cognitive Dissonance'—where does their actual chat behavior contradict their self-reported test answers?\n"
+        "2. Analyze 'Linguistic Variance'—how does their tone shift when addressing different people or topics?\n"
+        "3. Provide a full-fledged analysis combining both datasets to determine their true psychological state.\n"
+        "4. Format the response with the following REQUIRED sections:\n"
+        "   - **The Public Mask** (How they present themselves to others)\n"
+        "   - **The Private Reality** (What the psychometric data reveals vs. behavior)\n"
+        "   - **The Social Archetype** (Their core role and impact on the server)\n"
+        "Make it profound, clinical, and highly detailed (1000+ words).\n\n"
+        f"=== PSYCHOMETRIC TEST DATA ===\n{quiz_context}\n"
         f"=== TOTAL INTERACTION WEB ===\n{transcript}"
     )
 
@@ -821,6 +846,8 @@ async def generate_dossier(ctx):
 
         await status_msg.edit(content="✅ **Synthesis Complete.** The secure dossier has been delivered to your DMs.")
 
+    except discord.Forbidden:
+        await status_msg.edit(content="❌ **Privacy Error:** I couldn't deliver the dossier because your DMs are closed. Please enable DMs for this server and try again.")
     except asyncio.TimeoutError:
         await status_msg.edit(content="⚠️ **AI Engine Timeout:** The data volume was too large for the current model allocation. Try again later.")
     except errors.APIError as e:
@@ -831,128 +858,7 @@ async def generate_dossier(ctx):
     except Exception as e:
         await status_msg.edit(content=f"⚠️ **Synthesis Error:** {str(e)}")
 
-# =============================================================================
-# 9. PHASE 4: QUIZ COMMANDS & LOOP
-# =============================================================================
-
-async def run_quiz_loop(ctx, quiz_type, start_index=0, existing_answers=None):
-    """The interactive DM-based quiz loop."""
-    user_id = str(ctx.author.id)
-    data = QUIZ_DATA[quiz_type]
-    answers = existing_answers or []
-    
-    await ctx.author.send(f"🏁 **Starting {data['name']}**\n{data['instructions']}\nType `cancel` at any time to abort.")
-
-    for i in range(start_index, len(data["questions"])):
-        q = data["questions"][i]
-        prompt_text = f"**Question {i+1}/{len(data['questions'])}**\n{q['q']}"
-        if quiz_type == "mbti":
-            prompt_text += f"\n**A)** {q['a']}\n**B)** {q['b']}"
-        
-        await ctx.author.send(prompt_text)
-
-        def check(m):
-            if m.author.id != ctx.author.id or not isinstance(m.channel, discord.DMChannel):
-                return False
-            val = m.content.upper().strip()
-            if val == "CANCEL": return True
-            if quiz_type == "mbti": return val in ["A", "B"]
-            if quiz_type == "ocean": return val in ["1", "2", "3", "4", "5"]
-            return False
-
-        try:
-            msg = await bot.wait_for('message', timeout=300.0, check=check)
-            val = msg.content.upper().strip()
-            
-            if val == "CANCEL":
-                await ctx.author.send("❌ Quiz cancelled. Use `!quiz resume` later to pick up where you left off.")
-                return
-
-            answers.append(val)
-            # Persistence
-            await bot.db.execute(
-                "INSERT OR REPLACE INTO quiz_sessions (user_id, quiz_type, current_question, answers) VALUES (?, ?, ?, ?)",
-                (user_id, quiz_type, i + 1, json.dumps(answers))
-            )
-            await bot.db.commit()
-
-        except asyncio.TimeoutError:
-            await ctx.author.send("⏰ **Timeout**: You took too long. I've saved your progress. Use `!quiz resume` when you're back!")
-            return
-
-    # Completion
-    await ctx.author.send("✅ **Quiz Complete!** Generating your psychological profile...")
-    
-    scores = await calculate_scores(quiz_type, answers)
-    
-    # Gemini Synthesis
-    prompt = (
-        f"The user scored {scores} on the {data['name']} test. "
-        "Write a personalized 200-word summary of these results in a professional "
-        "psychological tone. Use insight and depth."
-    )
-    
-    try:
-        response = await asyncio.to_thread(model.generate_content, prompt)
-        summary = response.text
-        
-        # Save Results
-        await bot.db.execute(
-            "INSERT OR REPLACE INTO quiz_results (user_id, guild_id, quiz_type, result_summary, raw_answers, completed_at) VALUES (?, ?, ?, ?, ?, ?)",
-            (user_id, str(ctx.guild.id) if ctx.guild else "0", quiz_type, summary, json.dumps(answers), datetime.now().isoformat())
-        )
-        # Wipe Session
-        await bot.db.execute("DELETE FROM quiz_sessions WHERE user_id = ?", (user_id,))
-        await bot.db.commit()
-
-        await ctx.author.send(f"📊 **Your Results Summary:**\n\n{summary}{DISCLAIMER}")
-    except Exception as e:
-        log.error("Quiz Gemini Error: %s", e)
-        await ctx.author.send("⚠️ Synthesis failed, but your raw scores were saved.")
-
-@bot.command(name='take_test')
-async def take_test(ctx, test_type: str = None):
-    """Start a personality assessment (!take_test mbti|ocean)."""
-    if not is_opted_in(ctx.author):
-        return await ctx.reply("❌ Privacy gate: You need the `PsycheOptIn` role.")
-    
-    if not test_type or test_type.lower() not in QUIZ_DATA:
-        return await ctx.reply("❓ Please specify: `!take_test mbti` or `!take_test ocean`.")
-
-    user_id = str(ctx.author.id)
-    async with bot.db.execute("SELECT quiz_type FROM quiz_sessions WHERE user_id = ?", (user_id,)) as cursor:
-        if await cursor.fetchone():
-            return await ctx.reply("⚠️ You have an active session! Use `!quiz resume` or `!quiz cancel`.")
-
-    try:
-        await ctx.author.send("🧠 **Initializing Psyche Assessment Module...**")
-        await ctx.reply("📩 Check your DMs to begin!")
-        await run_quiz_loop(ctx, test_type.lower())
-    except discord.Forbidden:
-        await ctx.reply("❌ I can't DM you! Please open your privacy settings.")
-
-@bot.group(name='quiz', invoke_without_command=True)
-async def quiz(ctx):
-    """Quiz management commands (!quiz resume|cancel)."""
-    await ctx.reply("Usage: `!quiz resume` or `!quiz cancel`")
-
-@quiz.command(name='resume')
-async def quiz_resume(ctx):
-    """Resumes an in-progress quiz."""
-    async with bot.db.execute("SELECT quiz_type, current_question, answers FROM quiz_sessions WHERE user_id = ?", (str(ctx.author.id),)) as cursor:
-        row = await cursor.fetchone()
-        if not row:
-            return await ctx.reply("❌ No active session found.")
-        
-        await ctx.reply("📩 Resuming in DMs...")
-        await run_quiz_loop(ctx, row[0], start_index=row[1], existing_answers=json.loads(row[2]))
-
-@quiz.command(name='cancel')
-async def quiz_cancel(ctx):
-    """Wipes an in-progress quiz session."""
-    await bot.db.execute("DELETE FROM quiz_sessions WHERE user_id = ?", (str(ctx.author.id),))
-    await bot.db.commit()
-    await ctx.reply("🗑️ Active session wiped.")
+# DEPRECATED QUIZ SYSTEM REMOVED (Replaced by AssessmentView and !assessment)
 
 # =============================================================================
 # 10. SYSTEM COMMANDS
