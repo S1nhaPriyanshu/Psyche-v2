@@ -1,2696 +1,2696 @@
 {
-    "ocean": {
-        "name": "Big Five (IPIP-NEO-300)",
-        "instructions": "Reply with a number from **1 to 5**:\n1: Strongly Disagree\n2: Disagree\n3: Neutral\n4: Agree\n5: Strongly Agree",
-        "questions": [
-            {
-                "q": "[IPIP-NEO-300 Item 1] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 2] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 3] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 4] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 5] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 6] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 7] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 8] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 9] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 10] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 11] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 12] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 13] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 14] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 15] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 16] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 17] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 18] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 19] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 20] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 21] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 22] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 23] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 24] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 25] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 26] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 27] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 28] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 29] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 30] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 31] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 32] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 33] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 34] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 35] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 36] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 37] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 38] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 39] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 40] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 41] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 42] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 43] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 44] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 45] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 46] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 47] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 48] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 49] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 50] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 51] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 52] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 53] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 54] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 55] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 56] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 57] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 58] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 59] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 60] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 61] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 62] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 63] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 64] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 65] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 66] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 67] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 68] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 69] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 70] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 71] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 72] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 73] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 74] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 75] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 76] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 77] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 78] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 79] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 80] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 81] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 82] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 83] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 84] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 85] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 86] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 87] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 88] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 89] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 90] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 91] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 92] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 93] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 94] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 95] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 96] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 97] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 98] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 99] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 100] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 101] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 102] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 103] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 104] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 105] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 106] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 107] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 108] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 109] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 110] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 111] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 112] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 113] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 114] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 115] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 116] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 117] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 118] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 119] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 120] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 121] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 122] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 123] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 124] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 125] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 126] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 127] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 128] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 129] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 130] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 131] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 132] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 133] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 134] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 135] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 136] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 137] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 138] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 139] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 140] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 141] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 142] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 143] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 144] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 145] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 146] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 147] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 148] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 149] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 150] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 151] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 152] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 153] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 154] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 155] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 156] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 157] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 158] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 159] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 160] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 161] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 162] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 163] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 164] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 165] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 166] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 167] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 168] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 169] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 170] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 171] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 172] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 173] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 174] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 175] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 176] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 177] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 178] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 179] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 180] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 181] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 182] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 183] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 184] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 185] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 186] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 187] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 188] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 189] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 190] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 191] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 192] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 193] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 194] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 195] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 196] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 197] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 198] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 199] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 200] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 201] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 202] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 203] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 204] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 205] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 206] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 207] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 208] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 209] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 210] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 211] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 212] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 213] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 214] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 215] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 216] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 217] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 218] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 219] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 220] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 221] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 222] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 223] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 224] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 225] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 226] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 227] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 228] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 229] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 230] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 231] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 232] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 233] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 234] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 235] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 236] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 237] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 238] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 239] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 240] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 241] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 242] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 243] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 244] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 245] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 246] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 247] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 248] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 249] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 250] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 251] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 252] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 253] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 254] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 255] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 256] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 257] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 258] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 259] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 260] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 261] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 262] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 263] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 264] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 265] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 266] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 267] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 268] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 269] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 270] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 271] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 272] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 273] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 274] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 275] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 276] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 277] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 278] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 279] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 280] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 281] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 282] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 283] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 284] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 285] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 286] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 287] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 288] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 289] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 290] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 291] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 292] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 293] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 294] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 295] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 296] I see myself as someone who exhibits C traits strongly.",
-                "dim": "C",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 297] I see myself as someone who exhibits E traits strongly.",
-                "dim": "E",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 298] I see myself as someone who exhibits A traits strongly.",
-                "dim": "A",
-                "rev": true
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 299] I see myself as someone who exhibits N traits strongly.",
-                "dim": "N",
-                "rev": false
-            },
-            {
-                "q": "[IPIP-NEO-300 Item 300] I see myself as someone who exhibits O traits strongly.",
-                "dim": "O",
-                "rev": true
-            }
-        ]
-    },
-    "mbti": {
-        "name": "MBTI (Expanded 100-Item)",
-        "instructions": "For each question, select the option that feels most natural to you by replying **A** or **B**.",
-        "questions": [
-            {
-                "q": "[MBTI Expanded Item 1] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 2] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 3] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 4] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 5] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 6] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 7] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 8] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 9] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 10] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 11] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 12] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 13] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 14] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 15] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 16] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 17] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 18] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 19] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 20] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 21] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 22] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 23] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 24] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 25] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 26] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 27] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 28] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 29] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 30] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 31] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 32] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 33] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 34] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 35] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 36] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 37] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 38] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 39] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 40] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 41] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 42] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 43] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 44] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 45] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 46] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 47] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 48] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 49] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 50] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 51] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 52] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 53] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 54] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 55] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 56] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 57] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 58] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 59] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 60] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 61] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 62] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 63] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 64] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 65] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 66] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 67] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 68] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 69] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 70] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 71] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 72] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 73] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 74] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 75] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 76] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 77] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 78] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 79] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 80] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 81] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 82] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 83] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 84] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 85] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 86] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 87] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 88] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 89] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 90] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 91] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 92] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 93] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 94] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 95] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 96] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            },
-            {
-                "q": "[MBTI Expanded Item 97] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "SN"
-            },
-            {
-                "q": "[MBTI Expanded Item 98] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "TF"
-            },
-            {
-                "q": "[MBTI Expanded Item 99] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "JP"
-            },
-            {
-                "q": "[MBTI Expanded Item 100] In a new situation, do you:",
-                "a": "Act instinctively (Preference A)",
-                "b": "Analyze first (Preference B)",
-                "dim": "EI"
-            }
-        ]
-    },
-    "enneagram": {
-        "name": "Enneagram (RHETI 144-Item)",
-        "instructions": "Reply with a number from **1 to 5** based on how accurately the statement describes you.",
-        "questions": [
-            {
-                "q": "[RHETI Item 1] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 2] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 3] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 4] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 5] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 6] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 7] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 8] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 9] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 10] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 11] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 12] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 13] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 14] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 15] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 16] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 17] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 18] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 19] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 20] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 21] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 22] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 23] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 24] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 25] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 26] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 27] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 28] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 29] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 30] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 31] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 32] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 33] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 34] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 35] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 36] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 37] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 38] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 39] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 40] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 41] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 42] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 43] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 44] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 45] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 46] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 47] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 48] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 49] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 50] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 51] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 52] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 53] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 54] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 55] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 56] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 57] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 58] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 59] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 60] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 61] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 62] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 63] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 64] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 65] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 66] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 67] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 68] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 69] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 70] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 71] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 72] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 73] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 74] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 75] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 76] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 77] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 78] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 79] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 80] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 81] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 82] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 83] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 84] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 85] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 86] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 87] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 88] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 89] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 90] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 91] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 92] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 93] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 94] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 95] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 96] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 97] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 98] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 99] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 100] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 101] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 102] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 103] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 104] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 105] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 106] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 107] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 108] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 109] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 110] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 111] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 112] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 113] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 114] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 115] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 116] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 117] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 118] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 119] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 120] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 121] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 122] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 123] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 124] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 125] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 126] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 127] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 128] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 129] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 130] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 131] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 132] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 133] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 134] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 135] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            },
-            {
-                "q": "[RHETI Item 136] I frequently feel the core motivations associated with Type 2.",
-                "dim": "2"
-            },
-            {
-                "q": "[RHETI Item 137] I frequently feel the core motivations associated with Type 3.",
-                "dim": "3"
-            },
-            {
-                "q": "[RHETI Item 138] I frequently feel the core motivations associated with Type 4.",
-                "dim": "4"
-            },
-            {
-                "q": "[RHETI Item 139] I frequently feel the core motivations associated with Type 5.",
-                "dim": "5"
-            },
-            {
-                "q": "[RHETI Item 140] I frequently feel the core motivations associated with Type 6.",
-                "dim": "6"
-            },
-            {
-                "q": "[RHETI Item 141] I frequently feel the core motivations associated with Type 7.",
-                "dim": "7"
-            },
-            {
-                "q": "[RHETI Item 142] I frequently feel the core motivations associated with Type 8.",
-                "dim": "8"
-            },
-            {
-                "q": "[RHETI Item 143] I frequently feel the core motivations associated with Type 9.",
-                "dim": "9"
-            },
-            {
-                "q": "[RHETI Item 144] I frequently feel the core motivations associated with Type 1.",
-                "dim": "1"
-            }
-        ]
-    }
+  "ocean": {
+    "name": "Big Five (IPIP-NEO-300)",
+    "instructions": "Reply with a number from **1 to 5**:\n1: Strongly Disagree\n2: Disagree\n3: Neutral\n4: Agree\n5: Strongly Agree",
+    "questions": [
+      {
+        "q": "[IPIP-NEO-300 Item 1] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 2] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 3] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 4] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 5] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 6] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 7] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 8] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 9] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 10] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 11] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 12] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 13] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 14] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 15] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 16] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 17] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 18] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 19] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 20] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 21] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 22] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 23] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 24] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 25] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 26] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 27] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 28] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 29] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 30] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 31] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 32] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 33] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 34] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 35] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 36] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 37] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 38] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 39] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 40] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 41] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 42] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 43] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 44] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 45] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 46] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 47] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 48] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 49] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 50] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 51] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 52] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 53] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 54] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 55] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 56] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 57] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 58] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 59] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 60] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 61] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 62] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 63] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 64] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 65] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 66] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 67] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 68] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 69] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 70] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 71] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 72] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 73] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 74] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 75] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 76] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 77] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 78] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 79] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 80] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 81] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 82] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 83] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 84] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 85] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 86] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 87] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 88] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 89] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 90] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 91] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 92] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 93] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 94] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 95] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 96] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 97] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 98] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 99] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 100] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 101] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 102] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 103] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 104] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 105] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 106] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 107] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 108] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 109] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 110] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 111] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 112] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 113] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 114] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 115] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 116] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 117] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 118] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 119] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 120] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 121] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 122] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 123] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 124] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 125] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 126] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 127] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 128] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 129] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 130] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 131] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 132] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 133] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 134] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 135] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 136] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 137] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 138] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 139] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 140] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 141] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 142] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 143] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 144] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 145] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 146] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 147] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 148] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 149] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 150] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 151] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 152] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 153] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 154] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 155] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 156] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 157] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 158] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 159] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 160] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 161] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 162] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 163] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 164] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 165] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 166] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 167] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 168] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 169] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 170] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 171] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 172] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 173] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 174] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 175] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 176] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 177] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 178] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 179] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 180] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 181] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 182] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 183] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 184] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 185] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 186] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 187] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 188] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 189] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 190] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 191] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 192] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 193] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 194] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 195] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 196] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 197] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 198] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 199] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 200] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 201] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 202] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 203] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 204] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 205] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 206] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 207] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 208] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 209] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 210] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 211] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 212] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 213] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 214] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 215] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 216] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 217] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 218] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 219] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 220] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 221] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 222] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 223] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 224] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 225] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 226] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 227] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 228] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 229] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 230] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 231] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 232] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 233] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 234] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 235] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 236] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 237] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 238] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 239] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 240] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 241] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 242] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 243] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 244] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 245] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 246] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 247] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 248] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 249] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 250] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 251] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 252] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 253] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 254] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 255] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 256] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 257] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 258] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 259] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 260] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 261] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 262] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 263] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 264] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 265] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 266] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 267] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 268] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 269] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 270] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 271] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 272] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 273] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 274] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 275] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 276] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 277] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 278] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 279] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 280] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 281] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 282] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 283] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 284] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 285] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 286] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 287] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 288] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 289] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 290] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 291] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 292] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 293] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 294] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 295] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 296] I see myself as someone who exhibits C traits strongly.",
+        "dim": "C",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 297] I see myself as someone who exhibits E traits strongly.",
+        "dim": "E",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 298] I see myself as someone who exhibits A traits strongly.",
+        "dim": "A",
+        "rev": true
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 299] I see myself as someone who exhibits N traits strongly.",
+        "dim": "N",
+        "rev": false
+      },
+      {
+        "q": "[IPIP-NEO-300 Item 300] I see myself as someone who exhibits O traits strongly.",
+        "dim": "O",
+        "rev": true
+      }
+    ]
+  },
+  "mbti": {
+    "name": "MBTI (Expanded 100-Item)",
+    "instructions": "For each question, select the option that feels most natural to you by replying **A** or **B**.",
+    "questions": [
+      {
+        "q": "[MBTI Expanded Item 1] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 2] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 3] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 4] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 5] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 6] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 7] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 8] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 9] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 10] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 11] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 12] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 13] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 14] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 15] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 16] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 17] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 18] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 19] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 20] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 21] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 22] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 23] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 24] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 25] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 26] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 27] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 28] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 29] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 30] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 31] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 32] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 33] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 34] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 35] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 36] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 37] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 38] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 39] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 40] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 41] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 42] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 43] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 44] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 45] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 46] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 47] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 48] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 49] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 50] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 51] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 52] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 53] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 54] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 55] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 56] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 57] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 58] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 59] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 60] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 61] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 62] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 63] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 64] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 65] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 66] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 67] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 68] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 69] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 70] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 71] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 72] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 73] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 74] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 75] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 76] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 77] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 78] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 79] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 80] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 81] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 82] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 83] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 84] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 85] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 86] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 87] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 88] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 89] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 90] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 91] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 92] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 93] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 94] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 95] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 96] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      },
+      {
+        "q": "[MBTI Expanded Item 97] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "SN"
+      },
+      {
+        "q": "[MBTI Expanded Item 98] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "TF"
+      },
+      {
+        "q": "[MBTI Expanded Item 99] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "JP"
+      },
+      {
+        "q": "[MBTI Expanded Item 100] In a new situation, do you:",
+        "a": "Act instinctively (Preference A)",
+        "b": "Analyze first (Preference B)",
+        "dim": "EI"
+      }
+    ]
+  },
+  "enneagram": {
+    "name": "Enneagram (RHETI 144-Item)",
+    "instructions": "Reply with a number from **1 to 5** based on how accurately the statement describes you.",
+    "questions": [
+      {
+        "q": "[RHETI Item 1] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 2] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 3] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 4] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 5] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 6] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 7] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 8] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 9] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 10] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 11] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 12] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 13] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 14] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 15] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 16] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 17] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 18] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 19] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 20] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 21] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 22] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 23] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 24] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 25] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 26] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 27] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 28] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 29] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 30] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 31] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 32] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 33] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 34] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 35] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 36] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 37] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 38] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 39] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 40] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 41] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 42] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 43] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 44] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 45] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 46] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 47] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 48] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 49] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 50] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 51] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 52] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 53] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 54] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 55] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 56] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 57] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 58] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 59] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 60] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 61] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 62] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 63] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 64] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 65] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 66] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 67] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 68] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 69] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 70] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 71] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 72] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 73] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 74] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 75] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 76] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 77] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 78] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 79] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 80] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 81] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 82] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 83] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 84] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 85] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 86] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 87] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 88] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 89] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 90] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 91] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 92] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 93] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 94] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 95] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 96] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 97] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 98] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 99] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 100] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 101] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 102] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 103] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 104] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 105] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 106] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 107] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 108] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 109] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 110] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 111] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 112] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 113] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 114] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 115] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 116] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 117] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 118] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 119] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 120] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 121] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 122] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 123] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 124] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 125] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 126] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 127] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 128] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 129] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 130] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 131] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 132] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 133] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 134] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 135] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      },
+      {
+        "q": "[RHETI Item 136] I frequently feel the core motivations associated with Type 2.",
+        "dim": "2"
+      },
+      {
+        "q": "[RHETI Item 137] I frequently feel the core motivations associated with Type 3.",
+        "dim": "3"
+      },
+      {
+        "q": "[RHETI Item 138] I frequently feel the core motivations associated with Type 4.",
+        "dim": "4"
+      },
+      {
+        "q": "[RHETI Item 139] I frequently feel the core motivations associated with Type 5.",
+        "dim": "5"
+      },
+      {
+        "q": "[RHETI Item 140] I frequently feel the core motivations associated with Type 6.",
+        "dim": "6"
+      },
+      {
+        "q": "[RHETI Item 141] I frequently feel the core motivations associated with Type 7.",
+        "dim": "7"
+      },
+      {
+        "q": "[RHETI Item 142] I frequently feel the core motivations associated with Type 8.",
+        "dim": "8"
+      },
+      {
+        "q": "[RHETI Item 143] I frequently feel the core motivations associated with Type 9.",
+        "dim": "9"
+      },
+      {
+        "q": "[RHETI Item 144] I frequently feel the core motivations associated with Type 1.",
+        "dim": "1"
+      }
+    ]
+  }
 }
