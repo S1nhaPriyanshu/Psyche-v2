@@ -1,28 +1,17 @@
 # =============================================================================
-# NETWORK STABILIZATION (HUGGING FACE) — MINIMAL PROVEN VERSION
+# NETWORK STABILIZATION (HUGGING FACE) — NO PROXY, RETRY-BASED
+# =============================================================================
+# DIAGNOSTIC RESULT: HF containers have NO proxy. Connection failures are
+# caused by intermittent network drops during SSL handshakes. The fix is
+# retry logic + startup delay, NOT proxy injection.
 # =============================================================================
 import certifi
 import os
 import aiohttp
+import asyncio
 
-# 1. Force certifi globally
 os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
-
-# 2. Diagnostic: print ALL proxy-related env vars at startup
-print("[PSYCHE DIAG] === PROXY ENVIRONMENT ===")
-for var in ['http_proxy', 'HTTP_PROXY', 'https_proxy', 'HTTPS_PROXY', 'no_proxy', 'NO_PROXY', 'ALL_PROXY']:
-    print(f"[PSYCHE DIAG] {var} = {os.getenv(var, '(not set)')}")
-from urllib.request import getproxies
-print(f"[PSYCHE DIAG] getproxies() = {getproxies()}")
-print("[PSYCHE DIAG] ========================")
-
-# 3. Force trust_env on ALL sessions (PROVEN to make login work)
-_orig_session_init = aiohttp.ClientSession.__init__
-def _patched_session_init(self, *args, **kwargs):
-    kwargs['trust_env'] = True
-    _orig_session_init(self, *args, **kwargs)
-aiohttp.ClientSession.__init__ = _patched_session_init
 
 # =============================================================================
 # Psyche v2 — Core Bot
@@ -379,6 +368,21 @@ class PsycheBot(commands.Bot):
         super().__init__(*args, **kwargs)
         self.web_server = HeartbeatServer(port=7860)
         self.db: aiosqlite.Connection = None
+
+    async def login(self, token: str) -> None:
+        """Override login with retry logic for HF network instability."""
+        max_retries = 5
+        for attempt in range(max_retries):
+            try:
+                log.info(f"Login attempt {attempt + 1}/{max_retries}...")
+                return await super().login(token)
+            except (aiohttp.ClientConnectorError, ConnectionResetError, OSError) as e:
+                if attempt == max_retries - 1:
+                    log.error(f"All {max_retries} login attempts failed. Giving up.")
+                    raise
+                wait = (attempt + 1) * 10  # 10s, 20s, 30s, 40s
+                log.warning(f"Login attempt {attempt + 1} failed: {e}. Retrying in {wait}s...")
+                await asyncio.sleep(wait)
 
     async def setup_hook(self):
         """Persistent DB connection and Heartbeat startup."""
@@ -867,7 +871,16 @@ async def generate_dossier(ctx):
         )
         embed = apply_disclaimer(embed)
 
-        await ctx.author.send(embed=embed)
+        # Retry DM sending up to 3 times (HF network can drop mid-session)
+        for dm_attempt in range(3):
+            try:
+                await ctx.author.send(embed=embed)
+                break
+            except (aiohttp.ClientConnectorError, ConnectionResetError, OSError) as e:
+                if dm_attempt == 2:
+                    raise
+                log.warning(f"DM delivery attempt {dm_attempt + 1} failed: {e}. Retrying in 5s...")
+                await asyncio.sleep(5)
         
         # Set the Cooldown ONLY on success
         await bot.db.execute(
@@ -1030,4 +1043,8 @@ async def help_command(ctx):
     await ctx.send(embed=apply_disclaimer(embed))
 
 if __name__ == '__main__':
+    # Give HF's network stack time to fully initialize
+    import time as _time
+    log.info("Waiting 10s for network initialization...")
+    _time.sleep(10)
     bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
