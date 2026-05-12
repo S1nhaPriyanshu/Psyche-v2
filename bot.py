@@ -1,17 +1,28 @@
 # =============================================================================
-# NETWORK STABILIZATION (HUGGING FACE) — NO PROXY, RETRY-BASED
-# =============================================================================
-# DIAGNOSTIC RESULT: HF containers have NO proxy. Connection failures are
-# caused by intermittent network drops during SSL handshakes. The fix is
-# retry logic + startup delay, NOT proxy injection.
+# NETWORK STABILIZATION (HUGGING FACE) — MINIMAL PROVEN VERSION
 # =============================================================================
 import certifi
 import os
 import aiohttp
-import asyncio
 
+# 1. Force certifi globally
 os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
+
+# 2. Diagnostic: print ALL proxy-related env vars at startup
+print("[PSYCHE DIAG] === PROXY ENVIRONMENT ===")
+for var in ['http_proxy', 'HTTP_PROXY', 'https_proxy', 'HTTPS_PROXY', 'no_proxy', 'NO_PROXY', 'ALL_PROXY']:
+    print(f"[PSYCHE DIAG] {var} = {os.getenv(var, '(not set)')}")
+from urllib.request import getproxies
+print(f"[PSYCHE DIAG] getproxies() = {getproxies()}")
+print("[PSYCHE DIAG] ========================")
+
+# 3. Force trust_env on ALL sessions (PROVEN to make login work)
+_orig_session_init = aiohttp.ClientSession.__init__
+def _patched_session_init(self, *args, **kwargs):
+    kwargs['trust_env'] = True
+    _orig_session_init(self, *args, **kwargs)
+aiohttp.ClientSession.__init__ = _patched_session_init
 
 # =============================================================================
 # Psyche v2 — Core Bot
@@ -368,21 +379,6 @@ class PsycheBot(commands.Bot):
         super().__init__(*args, **kwargs)
         self.web_server = HeartbeatServer(port=7860)
         self.db: aiosqlite.Connection = None
-
-    async def login(self, token: str) -> None:
-        """Override login with retry logic for HF network instability."""
-        max_retries = 5
-        for attempt in range(max_retries):
-            try:
-                log.info(f"Login attempt {attempt + 1}/{max_retries}...")
-                return await super().login(token)
-            except (aiohttp.ClientConnectorError, ConnectionResetError, OSError) as e:
-                if attempt == max_retries - 1:
-                    log.error(f"All {max_retries} login attempts failed. Giving up.")
-                    raise
-                wait = (attempt + 1) * 10  # 10s, 20s, 30s, 40s
-                log.warning(f"Login attempt {attempt + 1} failed: {e}. Retrying in {wait}s...")
-                await asyncio.sleep(wait)
 
     async def setup_hook(self):
         """Persistent DB connection and Heartbeat startup."""
@@ -792,12 +788,22 @@ async def generate_dossier(ctx):
 
     status_msg = await ctx.send("🧬 **Initiating Deep Synthesis...** Aggregating total social web and psychometric data. *This may take a minute.*")
 
-    # 2. Fetch Total History
+    # Pre-warm the DM channel BEFORE the long Gemini call
+    # This keeps the connection alive and reduces stale-session failures
+    try:
+        dm_channel = await ctx.author.create_dm()
+    except Exception:
+        dm_channel = None
+
+    # 2. Fetch Total History (capped to most recent 15,000 for processing speed)
     async with bot.db.execute(
-        "SELECT content, timestamp, reply_to_id FROM interaction_history WHERE user_id = ? ORDER BY timestamp ASC",
+        "SELECT content, timestamp, reply_to_id FROM interaction_history WHERE user_id = ? ORDER BY timestamp DESC LIMIT 15000",
         (user_id,)
     ) as cursor:
         chat_rows = await cursor.fetchall()
+    
+    # Reverse to chronological order
+    chat_rows = list(reversed(chat_rows))
     
     if len(chat_rows) < 100:
         return await status_msg.edit(content="⚠️ **Insufficient Data:** Run `!map_interactions` to build your social web first.")
@@ -861,7 +867,7 @@ async def generate_dossier(ctx):
                     system_instruction=SYSTEM_INSTRUCTION
                 )
             ), 
-            timeout=90.0
+            timeout=120.0
         )
         
         embed = discord.Embed(
@@ -871,16 +877,23 @@ async def generate_dossier(ctx):
         )
         embed = apply_disclaimer(embed)
 
-        # Retry DM sending up to 3 times (HF network can drop mid-session)
+        # Retry DM delivery with channel fallback
+        delivered = False
         for dm_attempt in range(3):
             try:
                 await ctx.author.send(embed=embed)
+                delivered = True
                 break
             except (aiohttp.ClientConnectorError, ConnectionResetError, OSError) as e:
                 if dm_attempt == 2:
-                    raise
+                    break
                 log.warning(f"DM delivery attempt {dm_attempt + 1} failed: {e}. Retrying in 5s...")
                 await asyncio.sleep(5)
+        
+        if not delivered:
+            # Fallback: send in the channel instead
+            log.warning("DM delivery failed after 3 attempts. Falling back to channel.")
+            await ctx.send(embed=embed)
         
         # Set the Cooldown ONLY on success
         await bot.db.execute(
@@ -889,7 +902,10 @@ async def generate_dossier(ctx):
         )
         await bot.db.commit()
 
-        await status_msg.edit(content="✅ **Synthesis Complete.** The secure dossier has been delivered to your DMs.")
+        if delivered:
+            await status_msg.edit(content="✅ **Synthesis Complete.** The secure dossier has been delivered to your DMs.")
+        else:
+            await status_msg.edit(content="✅ **Synthesis Complete.** DM delivery failed — results posted above.")
 
     except discord.Forbidden:
         await status_msg.edit(content="❌ **Privacy Error:** I couldn't deliver the dossier because your DMs are closed. Please enable DMs for this server and try again.")
@@ -1033,18 +1049,15 @@ async def help_command(ctx):
         description="Authorized protocol for digital behavioral reconstruction.",
         color=0x2f3136
     )
-    embed.add_field(name="🛰️ Diagnostics", value="`!ping` - Check system uplink status", inline=False)
-    embed.add_field(name="📡 Acquisition", value="`!map_interactions` - Reconstruct server history", inline=False)
-    embed.add_field(name="🕵️ Profiling", value="`!behavior_scan` - Analyze linguistic fingerprints", inline=False)
-    embed.add_field(name="🔬 Validation", value="`!assessment` - Guided psychiatric interview", inline=False)
-    embed.add_field(name="🛡️ Security", value="`!purge_my_data` - Total digital erasure (The Shredder)", inline=False)
+    embed.add_field(name="🛰️ Diagnostics", value="`!ping` — Check system uplink status & latency", inline=False)
+    embed.add_field(name="📡 Data Acquisition", value="`!map_interactions` — Deep-scan the entire server and reconstruct your social web (threads, voice, text)", inline=False)
+    embed.add_field(name="🕵️ Behavioral Profiling", value="`!behavior_scan` — Quick AI analysis of your linguistic fingerprints (sent via DM)", inline=False)
+    embed.add_field(name="🧬 Deep Synthesis Dossier", value="`!generate_dossier` — Full 1000+ word psychological profile combining chat history + quiz data (7-day cooldown)", inline=False)
+    embed.add_field(name="🔬 Psychometric Assessment", value="`!assessment` — Guided psychiatric interview (Big Five, MBTI, Enneagram) delivered via DM", inline=False)
+    embed.add_field(name="🛡️ Data Security", value="`!purge_my_data` — Total digital erasure of all your stored data (The Shredder)", inline=False)
     
     embed.set_footer(text="RESTRICTED ACCESS | FOR FORENSIC USE ONLY")
     await ctx.send(embed=apply_disclaimer(embed))
 
 if __name__ == '__main__':
-    # Give HF's network stack time to fully initialize
-    import time as _time
-    log.info("Waiting 10s for network initialization...")
-    _time.sleep(10)
     bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
