@@ -1,8 +1,8 @@
 ---
-title: Psyche's Brain
+title: Psyche V2 Forensics
 emoji: 🧠
-colorFrom: purple
-colorTo: indigo
+colorFrom: blue
+colorTo: purple
 sdk: docker
 app_port: 7860
 pinned: false
