@@ -603,7 +603,33 @@ async def map_interactions(ctx: commands.Context):
     
     total_mapped = 0
     total_scanned = 0
+    total_filtered = 0
     batch_rows = []
+
+    # --- Smart Noise Filter ---
+    import re
+    _LINK_ONLY = re.compile(r'^https?://\S+$')
+    _PURE_EMOJI = re.compile(r'^[\U0001F000-\U0001FFFF\u2600-\u27FF\uFE00-\uFE0F\u200d\s]+$')
+    _BOT_CMD = re.compile(r'^[!?./]\w+')
+    _NOISE_WORDS = {'k', 'ok', 'okay', 'yes', 'no', 'yep', 'nah', 'nope', 'ya', 'ye',
+                    'lol', 'lmao', 'lmfao', 'haha', 'hahaha', 'heh', 'xd',
+                    'bruh', 'oof', 'rip', 'gg', 'ez', 'f', 'w', 'l', 'ty', 'np',
+                    'ikr', 'idk', 'idc', 'smh', 'tbh', 'fr', 'ngl', 'omg', 'wtf'}
+
+    def is_noise(content: str) -> bool:
+        """Returns True if the message has no behavioral value."""
+        text = content.strip()
+        if not text:
+            return True  # Empty/whitespace
+        if _BOT_CMD.match(text):
+            return True  # Bot commands
+        if _LINK_ONLY.match(text):
+            return True  # Link-only, no commentary
+        if _PURE_EMOJI.match(text):
+            return True  # Pure emoji spam
+        if text.lower() in _NOISE_WORDS:
+            return True  # Single-word noise
+        return False
 
     # 3. The Iterative Crawl (Optimized for 2 vCPUs)
     all_channels = ctx.guild.text_channels + ctx.guild.voice_channels + list(ctx.guild.threads)
@@ -629,6 +655,11 @@ async def map_interactions(ctx: commands.Context):
                     )
 
                 if message.author.id == ctx.author.id:
+                    # Skip messages with no behavioral signal
+                    if is_noise(message.content):
+                        total_filtered += 1
+                        continue
+                    
                     reply_id = str(message.reference.message_id) if message.reference else None
                     batch_rows.append((
                         str(message.id), 
@@ -688,7 +719,10 @@ async def map_interactions(ctx: commands.Context):
 
     embed = discord.Embed(
         title="✅ Social Web Mapped",
-        description=f"Successfully extracted and secured **{total_mapped:,}** interactions for {ctx.author.mention}.",
+        description=(
+            f"Successfully extracted and secured **{total_mapped:,}** interactions for {ctx.author.mention}.\n"
+            f"Noise filtered: `{total_filtered:,}` messages (bot cmds, emoji, links, filler)"
+        ),
         color=discord.Color.brand_green()
     )
     embed.set_footer(text="RESTRICTED ACCESS | FOR FORENSIC USE ONLY")
@@ -795,15 +829,12 @@ async def generate_dossier(ctx):
     except Exception:
         dm_channel = None
 
-    # 2. Fetch Total History (capped to most recent 15,000 for processing speed)
+    # 2. Fetch Total History (pre-filtered data, no cap needed)
     async with bot.db.execute(
-        "SELECT content, timestamp, reply_to_id FROM interaction_history WHERE user_id = ? ORDER BY timestamp DESC LIMIT 15000",
+        "SELECT content, timestamp, reply_to_id FROM interaction_history WHERE user_id = ? ORDER BY timestamp ASC",
         (user_id,)
     ) as cursor:
         chat_rows = await cursor.fetchall()
-    
-    # Reverse to chronological order
-    chat_rows = list(reversed(chat_rows))
     
     if len(chat_rows) < 100:
         return await status_msg.edit(content="⚠️ **Insufficient Data:** Run `!map_interactions` to build your social web first.")
