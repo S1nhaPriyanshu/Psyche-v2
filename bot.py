@@ -7,29 +7,16 @@ os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = certifi.where() # Extra for 2026 stability
 
 # =============================================================================
-# MASTER NETWORK STABILIZATION (DIRECT + CERTIFI)
-# =============================================================================
-import aiohttp
-import ssl
-import certifi
+# Set global environment variables immediately
+os.environ['SSL_CERT_FILE'] = certifi.where()
+os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
+os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = certifi.where() # Extra for 2026 stability
 
-# 1. Create a global, immutable SSL context using certifi
-MASTER_SSL_CONTEXT = ssl.create_default_context(cafile=certifi.where())
-
-# 2. Patch TCPConnector to force-inject our SSL context
-_orig_tcp_init = aiohttp.TCPConnector.__init__
-def _patched_tcp_init(self, *args, **kwargs):
-    if 'ssl' not in kwargs or kwargs['ssl'] is True or kwargs['ssl'] is None:
-        kwargs['ssl'] = MASTER_SSL_CONTEXT
-    _orig_tcp_init(self, *args, **kwargs)
-aiohttp.TCPConnector.__init__ = _patched_tcp_init
-
-# 3. Force aiohttp to BYPASS the broken Hugging Face proxy
-_orig_session_init = aiohttp.ClientSession.__init__
-def _patched_session_init(self, *args, **kwargs):
-    kwargs['trust_env'] = False
-    _orig_session_init(self, *args, **kwargs)
-aiohttp.ClientSession.__init__ = _patched_session_init
+# Unset restrictive Hugging Face proxies to prevent ClientConnectorError timeouts
+os.environ.pop('http_proxy', None)
+os.environ.pop('https_proxy', None)
+os.environ.pop('HTTP_PROXY', None)
+os.environ.pop('HTTPS_PROXY', None)
 
 # =============================================================================
 # Psyche v2 — Core Bot
