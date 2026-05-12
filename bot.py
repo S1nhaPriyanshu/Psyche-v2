@@ -490,9 +490,17 @@ async def on_message(message: discord.Message):
     """The Message Gate: Privacy-first logging."""
     if message.author.bot:
         return
+        
+    log.info(f"Message received from {message.author}: {message.content}")
+
+    # Process commands immediately
+    log.info("Attempting to process commands...")
+    await bot.process_commands(message)
 
     # Phase 2: Log only if opted-in AND in a Server (No DM logging)
+    log.info(f"Checking opt-in for {message.author}...")
     if not isinstance(message.channel, discord.DMChannel) and is_opted_in(message.author):
+        log.info(f"User {message.author} is opted in. Saving to database.")
         try:
             await bot.db.execute(
                 "INSERT INTO messages (user_id, guild_id, content) VALUES (?, ?, ?)",
@@ -501,8 +509,6 @@ async def on_message(message: discord.Message):
             await bot.db.commit()
         except Exception as e:
             log.error("DB Log Error: %s", e)
-
-    await bot.process_commands(message)
 
 @bot.event
 async def on_guild_remove(guild: discord.Guild):
