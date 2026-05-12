@@ -3,20 +3,20 @@
 # Pinned for stability on Hugging Face Spaces (Python 3.11)
 # =============================================================================
 
-# Discord bot framework (aiohttp is bundled with this — used for heartbeat too)
+# Discord bot framework
 discord.py>=2.3.2
 
-# Async SQLite for non-blocking DB operations
-aiosqlite>=0.19.0
-
-# Google Gemini AI engine
-google-generativeai>=0.8.0
-
-# Environment variable loader (for local .env development)
-python-dotenv>=1.0.1
-
-# SSL certificate bundle — fixes HF Spaces "Offline" gateway errors
-certifi>=2024.0.0
+# 2026 Google Gemini SDK
+google-genai>=1.0.0
 
 # Web server for Heartbeat
 aiohttp>=3.9.0
+
+# Async SQLite
+aiosqlite
+
+# Environment variable loader
+python-dotenv>=1.0.1
+
+# SSL certificate bundle
+certifi

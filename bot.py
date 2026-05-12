@@ -4,12 +4,10 @@
 # Powered by Google Gemini 3.1 Pro.
 # =============================================================================
 
-import os
 import certifi
+import os
 
-# --- 1. SSL CERTIFICATE PATCH (CRITICAL ORDER) ---
-# MUST be executed BEFORE any network-reliant library (discord, aiohttp, google) 
-# is even imported to ensure the environment variables are locked in.
+# Mandatory 2026 Networking Patch for Hugging Face
 os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
 
@@ -27,7 +25,8 @@ from discord.ext import commands
 from discord import ui
 from aiohttp import web
 from dotenv import load_dotenv
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
 # =============================================================================
 # 1. CONFIGURATION & ENVIRONMENT
@@ -65,7 +64,7 @@ logging.getLogger('discord').setLevel(logging.WARNING)
 # 3. GOOGLE GEMINI CONFIGURATION
 # =============================================================================
 
-genai.configure(api_key=GEMINI_API_KEY, transport='rest')
+client = genai.Client(api_key=os.getenv('GEMINI_API_KEY'))
 
 # System instruction forces the "Clinical" persona globally
 SYSTEM_INSTRUCTION = (
@@ -73,16 +72,6 @@ SYSTEM_INSTRUCTION = (
     "Discord interactions and raw psychometric data. Look for cognitive dissonance, "
     "social archetypes, and linguistic patterns. NEVER provide a medical or psychiatric "
     "diagnosis. Frame all insights as 'behavioral conjecture' based on text patterns."
-)
-
-flash_engine = genai.GenerativeModel(
-    model_name="gemini-3.1-flash-lite",
-    system_instruction=SYSTEM_INSTRUCTION
-)
-
-pro_engine = genai.GenerativeModel(
-    model_name="gemini-3.1-pro",
-    system_instruction=SYSTEM_INSTRUCTION
 )
 
 # =============================================================================
@@ -707,7 +696,13 @@ async def behavior_scan(ctx):
     )
 
     try:
-        response = await flash_engine.generate_content_async(prompt)
+        response = await client.aio.models.generate_content(
+            model=SCAN_MODEL,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=SYSTEM_INSTRUCTION
+            )
+        )
         
         embed = discord.Embed(
             title="🔍 Behavioral Snapshot", 
@@ -784,7 +779,13 @@ async def generate_dossier(ctx):
 
     try:
         response = await asyncio.wait_for(
-            pro_engine.generate_content_async(prompt), 
+            client.aio.models.generate_content(
+                model=DOSSIER_MODEL,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    system_instruction=SYSTEM_INSTRUCTION
+                )
+            ), 
             timeout=90.0
         )
         
@@ -1031,7 +1032,13 @@ async def system_query(ctx, target_id: str, *, query: str):
 
         # 6. ASYNC AI GENERATION
         response = await asyncio.wait_for(
-            pro_engine.generate_content_async(admin_prompt),
+            client.aio.models.generate_content(
+                model=DOSSIER_MODEL,
+                contents=admin_prompt,
+                config=types.GenerateContentConfig(
+                    system_instruction=SYSTEM_INSTRUCTION
+                )
+            ),
             timeout=120.0  # Extended timeout for massive admin queries
         )
 
