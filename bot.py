@@ -411,11 +411,13 @@ class PsycheBot(commands.Bot):
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
+hf_proxy = os.getenv('https_proxy') or os.getenv('http_proxy')
+
 bot = PsycheBot(
-    command_prefix=commands.when_mentioned_or('!'), 
-    case_insensitive=True, 
-    intents=intents, 
-    help_command=None
+    command_prefix='!',
+    intents=intents,
+    help_command=None,
+    proxy=hf_proxy
 )
 
 @bot.event
@@ -1026,6 +1028,4 @@ async def help_command(ctx):
     await ctx.send(embed=apply_disclaimer(embed))
 
 if __name__ == '__main__':
-    # Force the use of the Hugging Face proxy if it exists
-    proxy = os.getenv('https_proxy') or os.getenv('http_proxy')
-    bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None, proxy=proxy)
+    bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
