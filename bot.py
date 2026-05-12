@@ -2,15 +2,24 @@ import certifi
 import os
 
 # Set global environment variables immediately
+import certifi
+import os
+import ssl
+
 os.environ['SSL_CERT_FILE'] = certifi.where()
 os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
-os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = certifi.where() # Extra for 2026 stability
+os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = certifi.where()
 
 # =============================================================================
-# Set global environment variables immediately
-os.environ['SSL_CERT_FILE'] = certifi.where()
-os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
-os.environ['WEBSOCKET_CLIENT_CA_BUNDLE'] = certifi.where() # Extra for 2026 stability
+# UNIVERSAL SSL PATCH (THE "NUKE" OPTION)
+# =============================================================================
+# This forces the entire Python process to use certifi for every SSL context
+_orig_create_default_context = ssl.create_default_context
+def _patched_create_default_context(*args, **kwargs):
+    context = _orig_create_default_context(*args, **kwargs)
+    context.load_verify_locations(cafile=certifi.where())
+    return context
+ssl.create_default_context = _patched_create_default_context
 
 # Unset restrictive Hugging Face proxies to prevent ClientConnectorError timeouts
 os.environ.pop('http_proxy', None)
