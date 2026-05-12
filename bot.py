@@ -467,7 +467,23 @@ class PsycheBot(commands.Bot):
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
-bot = PsycheBot(command_prefix='!', intents=intents, help_command=None)
+bot = PsycheBot(
+    command_prefix=commands.when_mentioned_or('!'), 
+    case_insensitive=True, 
+    intents=intents, 
+    help_command=None
+)
+
+@bot.event
+async def on_command_error(ctx, error):
+    """Global error handler to catch silent command failures."""
+    if isinstance(error, commands.CommandNotFound):
+        return
+    log.error("Command Error in %s: %s", ctx.command.name if ctx.command else "Unknown", error)
+    try:
+        await ctx.send(f"⚠️ **Command Execution Failed:** {str(error)}")
+    except:
+        pass
 
 @bot.event
 async def on_message(message: discord.Message):
