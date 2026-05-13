@@ -64,8 +64,8 @@ try:
 except ValueError:
     OWNER_ID = 0
 # ---------------------------------------------------------
-SCAN_MODEL = os.getenv('SCAN_MODEL', 'gemini-3.1-flash-lite-preview')
-DOSSIER_MODEL = os.getenv('DOSSIER_MODEL', 'gemini-3.1-pro-preview')
+SCAN_MODEL = os.getenv('SCAN_MODEL', 'gemini-1.5-flash')
+DOSSIER_MODEL = os.getenv('DOSSIER_MODEL', 'gemini-1.5-flash')
 # ---------------------------------------------------------
 DB_PATH         = '/data/psyche.db'
 
