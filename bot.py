@@ -420,6 +420,29 @@ class PsycheBot(commands.Bot):
             log.info("Database connection closed.")
         await super().close()
 
+    async def start(self, token, *, reconnect=True):
+        """
+        Override to retry login on transient network failures.
+        Retries happen INSIDE the async context so the HTTP session stays alive.
+        """
+        max_retries = 10
+        for attempt in range(max_retries):
+            try:
+                log.info("Connecting to Discord (attempt %d/%d)...", attempt + 1, max_retries)
+                await self.login(token)
+                break
+            except (aiohttp.ClientConnectorError, ConnectionResetError, OSError) as e:
+                if attempt == max_retries - 1:
+                    log.critical("Failed to login after %d attempts. Giving up.", max_retries)
+                    raise
+                wait = min(15 * (2 ** attempt), 300)
+                log.warning(
+                    "Login failed (attempt %d/%d): %s. Retrying in %ds...",
+                    attempt + 1, max_retries, e, wait
+                )
+                await asyncio.sleep(wait)
+        await self.connect(reconnect=reconnect)
+
     async def on_ready(self):
         activity = discord.Activity(type=discord.ActivityType.watching, name="patterns | !help")
         await self.change_presence(status=discord.Status.online, activity=activity)
@@ -1129,18 +1152,4 @@ async def help_command(ctx):
     await ctx.send(embed=apply_disclaimer(embed))
 
 if __name__ == '__main__':
-    max_startup_retries = 10
-    for _attempt in range(max_startup_retries):
-        try:
-            log.info("Starting bot (attempt %d/%d)...", _attempt + 1, max_startup_retries)
-            bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
-            break  # Clean exit (bot.close() was called intentionally)
-        except (aiohttp.ClientConnectorError, ConnectionResetError, OSError) as e:
-            wait = min(15 * (2 ** _attempt), 300)  # 15s, 30s, 60s... cap at 5 min
-            log.warning(
-                "Startup connection failed (attempt %d/%d): %s. Retrying in %ds...",
-                _attempt + 1, max_startup_retries, e, wait
-            )
-            time.sleep(wait)
-    else:
-        log.critical("Bot failed to connect after %d attempts. Exiting.", max_startup_retries)
+    bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
