@@ -200,6 +200,23 @@ def apply_disclaimer(embed):
     embed.set_footer(text="Psyche v2 | Experimental Behavioral Modeling")
     return embed
 
+async def resilient_call(func, *args, retries=3, delay=2, **kwargs):
+    """
+    Retries a Discord API call on transient network failures.
+    Designed for HuggingFace Spaces where outbound HTTPS intermittently drops.
+    Uses exponential backoff: 2s, 4s, 8s.
+    """
+    for attempt in range(retries):
+        try:
+            return await func(*args, **kwargs)
+        except (aiohttp.ClientConnectorError, ConnectionResetError, OSError) as e:
+            if attempt == retries - 1:
+                log.error("Network call failed after %d attempts: %s", retries, e)
+                raise
+            wait = delay * (2 ** attempt)
+            log.warning("Network blip (attempt %d/%d): %s. Retrying in %ds...", attempt + 1, retries, e, wait)
+            await asyncio.sleep(wait)
+
 async def purge_user_data(user_id: str):
     """
     The Scrub Protocol (User-Level).
@@ -445,6 +462,10 @@ async def on_message(message: discord.Message):
     log.info("Attempting to process commands...")
     await bot.process_commands(message)
 
+    # Skip behavioral logging for command invocations (no analytical value)
+    if message.content.startswith('!'):
+        return
+
     # Phase 2: Log only if opted-in AND in a Server (No DM logging)
     log.info(f"Checking opt-in for {message.author}...")
     if not isinstance(message.channel, discord.DMChannel) and is_opted_in(message.author):
@@ -596,7 +617,8 @@ async def map_interactions(ctx: commands.Context):
         return await ctx.send("⚠️ This command must be run inside the private server, not in DMs.")
 
     # 2. UI Feedback
-    status_msg = await ctx.send(
+    status_msg = await resilient_call(
+        ctx.send,
         "🔍 **Initializing Total Interaction Scraper...**\n"
         "*This may take a while. The database is batching writes to conserve CPU.*"
     )
@@ -643,16 +665,25 @@ async def map_interactions(ctx: commands.Context):
             continue
             
         try:
+            channel_start = time.time()
             async for message in channel.history(limit=None, oldest_first=True):
                 total_scanned += 1
+
+                # Per-channel timeout: 120s max to prevent infinite hangs
+                if time.time() - channel_start > 120:
+                    log.warning("Channel %s exceeded 120s timeout. Moving on.", channel.name)
+                    break
                 
-                # HEARTBEAT: Update UI every 1000 messages scanned so user knows we aren't stuck
+                # HEARTBEAT: Update UI every 1000 messages (non-critical, wrapped in try/except)
                 if total_scanned % 1000 == 0:
-                    await status_msg.edit(
-                        content=f"🔍 **Mapping in progress...**\n"
-                                f"Messages scanned: `{total_scanned:,}`\n"
-                                f"Interactions found: `{total_mapped:,}`"
-                    )
+                    try:
+                        await status_msg.edit(
+                            content=f"🔍 **Mapping in progress...**\n"
+                                    f"Messages scanned: `{total_scanned:,}`\n"
+                                    f"Interactions found: `{total_mapped:,}`"
+                        )
+                    except (aiohttp.ClientConnectorError, ConnectionResetError, OSError):
+                        pass  # Non-critical UI update — continue scraping
 
                 if message.author.id == ctx.author.id:
                     # Skip messages with no behavioral signal
@@ -680,15 +711,21 @@ async def map_interactions(ctx: commands.Context):
                         await bot.db.commit()
                         batch_rows.clear()
                         
-                        await status_msg.edit(
-                            content=f"🔍 **Mapping in progress...**\n"
-                                    f"Messages scanned: `{total_scanned:,}`\n"
-                                    f"Interactions found: `{total_mapped:,}`"
-                        )
+                        try:
+                            await status_msg.edit(
+                                content=f"🔍 **Mapping in progress...**\n"
+                                        f"Messages scanned: `{total_scanned:,}`\n"
+                                        f"Interactions found: `{total_mapped:,}`"
+                            )
+                        except (aiohttp.ClientConnectorError, ConnectionResetError, OSError):
+                            pass  # Non-critical UI update — continue scraping
                         await asyncio.sleep(0.5)
 
         except discord.Forbidden:
             continue  # Silently skip hidden admin channels
+        except (aiohttp.ClientConnectorError, ConnectionResetError, OSError) as e:
+            log.warning("Network error on channel %s: %s. Skipping.", channel.name, e)
+            continue  # Skip this channel, try the next one
 
     # 4. Final Cleanup Commit (Catching the remainders)
     if batch_rows:
@@ -727,7 +764,7 @@ async def map_interactions(ctx: commands.Context):
     )
     embed.set_footer(text="RESTRICTED ACCESS | FOR FORENSIC USE ONLY")
     
-    await status_msg.edit(content=None, embed=embed, view=AnalysisView())
+    await resilient_call(status_msg.edit, content=None, embed=embed, view=AnalysisView())
 
 # --- THE SCRUB PROTOCOL (Data Rights) ---
 @bot.command(name='purge_my_data')
@@ -968,7 +1005,7 @@ async def ping(ctx: commands.Context):
            f"Latency: {latency}ms\n"
            f"Database: {db_status}\n"
            f"Engine: {engine_str} Active")
-    await ctx.send(msg)
+    await resilient_call(ctx.send, msg)
 
 # =============================================================================
 # 11. PHASE 6: THE CREATOR'S SKELETON KEY
