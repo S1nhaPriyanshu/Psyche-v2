@@ -1,15 +1,14 @@
 # =============================================================================
 # Psyche v2 — Python Dependencies
-# Pinned for stability on Hugging Face Spaces (Python 3.11)
 # =============================================================================
 
 # Discord bot framework
 discord.py>=2.3.2
 
-# 2026 Google Gemini SDK
+# Google Gemini SDK
 google-genai>=1.0.0
 
-# Web server for Heartbeat
+# Async HTTP (used internally by discord.py)
 aiohttp>=3.9.0
 
 # Async SQLite
@@ -17,6 +16,3 @@ aiosqlite
 
 # Environment variable loader
 python-dotenv>=1.0.1
-
-# SSL certificate bundle
-certifi

@@ -1,51 +1,21 @@
 # =============================================================================
-# NETWORK STABILIZATION (HUGGING FACE) — MINIMAL PROVEN VERSION
-# =============================================================================
-import certifi
-import os
-import aiohttp
-
-# 1. Force certifi globally
-os.environ['SSL_CERT_FILE'] = certifi.where()
-os.environ['REQUESTS_CA_BUNDLE'] = certifi.where()
-
-# 2. Diagnostic: print ALL proxy-related env vars at startup
-print("[PSYCHE DIAG] === PROXY ENVIRONMENT ===")
-for var in ['http_proxy', 'HTTP_PROXY', 'https_proxy', 'HTTPS_PROXY', 'no_proxy', 'NO_PROXY', 'ALL_PROXY']:
-    print(f"[PSYCHE DIAG] {var} = {os.getenv(var, '(not set)')}")
-from urllib.request import getproxies
-print(f"[PSYCHE DIAG] getproxies() = {getproxies()}")
-print("[PSYCHE DIAG] ========================")
-
-# 3. Force trust_env on ALL sessions (PROVEN to make login work)
-_orig_session_init = aiohttp.ClientSession.__init__
-def _patched_session_init(self, *args, **kwargs):
-    kwargs['trust_env'] = True
-    _orig_session_init(self, *args, **kwargs)
-aiohttp.ClientSession.__init__ = _patched_session_init
-
-# =============================================================================
 # Psyche v2 — Core Bot
 # A privacy-first, high-reasoning Discord behavioral analysis bot.
-# Powered by Google Gemini 3.1 Pro.
+# Powered by Google Gemini.
 # =============================================================================
 
 import asyncio
-import aiosqlite         # Phase 2: Async SQLite
+import aiosqlite
 import logging
-import signal
+import os
 import json
 import time
 from datetime import datetime
 
 import aiohttp
-import ssl
-
-# Now safe to import network-reliant libraries
 import discord
 from discord.ext import commands
 from discord import ui
-from aiohttp import web
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types, errors
@@ -67,7 +37,7 @@ except ValueError:
 SCAN_MODEL = os.getenv('SCAN_MODEL', 'gemini-1.5-flash')
 DOSSIER_MODEL = os.getenv('DOSSIER_MODEL', 'gemini-1.5-flash')
 # ---------------------------------------------------------
-DB_PATH         = '/data/psyche.db'
+DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'psyche.db')
 
 # Robust pathing for local assets
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -368,52 +338,23 @@ def format_transcript(rows):
     return "\n".join(transcript)
 
 # =============================================================================
-# 6. HEARTBEAT WEB SERVER
-# =============================================================================
-
-class HeartbeatServer:
-    def __init__(self, port=7860):
-        self.port = port
-        self.runner = None
-
-    async def start(self):
-        app = web.Application()
-        app.router.add_get('/', lambda r: web.Response(text="Psyche is Awake"))
-        self.runner = web.AppRunner(app)
-        await self.runner.setup()
-        await web.TCPSite(self.runner, '0.0.0.0', self.port).start()
-        log.info("Heartbeat online on port %s", self.port)
-
-    async def stop(self):
-        if self.runner: await self.runner.cleanup()
-
-# =============================================================================
 # 6. BOT CLASS (Lifecycle Managed)
 # =============================================================================
 
 class PsycheBot(commands.Bot):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.web_server = HeartbeatServer(port=7860)
         self.db: aiosqlite.Connection = None
 
     async def setup_hook(self):
-        """Persistent DB connection and Heartbeat startup."""
-        # 1. Start Heartbeat
-        await self.web_server.start()
-        
-        # 2. Establish Persistent DB Connection
-        os.makedirs(os.path.dirname(DB_PATH), exist_ok=True)
+        """Persistent DB connection startup."""
         self.db = await aiosqlite.connect(DB_PATH)
-        self.db.row_factory = aiosqlite.Row  # Access columns by name
-        
-        # 3. Initialize Schema
+        self.db.row_factory = aiosqlite.Row
         await init_db(self.db)
 
     async def close(self):
-        """Graceful shutdown of DB and Web Server."""
-        log.info("Closing bot resources...")
-        await self.web_server.stop()
+        """Graceful shutdown."""
+        log.info("Shutting down Psyche...")
         if self.db:
             await self.db.close()
             self.db = None
