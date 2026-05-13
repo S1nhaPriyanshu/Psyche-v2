@@ -416,6 +416,7 @@ class PsycheBot(commands.Bot):
         await self.web_server.stop()
         if self.db:
             await self.db.close()
+            self.db = None
             log.info("Database connection closed.")
         await super().close()
 
@@ -1128,4 +1129,18 @@ async def help_command(ctx):
     await ctx.send(embed=apply_disclaimer(embed))
 
 if __name__ == '__main__':
-    bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
+    max_startup_retries = 10
+    for _attempt in range(max_startup_retries):
+        try:
+            log.info("Starting bot (attempt %d/%d)...", _attempt + 1, max_startup_retries)
+            bot.run(DISCORD_TOKEN, reconnect=True, log_handler=None)
+            break  # Clean exit (bot.close() was called intentionally)
+        except (aiohttp.ClientConnectorError, ConnectionResetError, OSError) as e:
+            wait = min(15 * (2 ** _attempt), 300)  # 15s, 30s, 60s... cap at 5 min
+            log.warning(
+                "Startup connection failed (attempt %d/%d): %s. Retrying in %ds...",
+                _attempt + 1, max_startup_retries, e, wait
+            )
+            time.sleep(wait)
+    else:
+        log.critical("Bot failed to connect after %d attempts. Exiting.", max_startup_retries)
